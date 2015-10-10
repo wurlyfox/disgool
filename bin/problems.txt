@@ -1,0 +1,20 @@
+problems:
+
+1) no function call statement appears for 0x27
+3) no function call statement appears for:
+   - msc pso 10 sso 1?
+   -     pso 11 sso 3?
+   -     pso 12 sso 2?
+   -     pso 10 sso 1
+   ** msc pso 7 works fine
+4) last statement in second to last block (else if) of func_10c (boxsc.gooc)
+   belongs to its parent block
+5) where is the end of sub_44c?
+6) no condition for RST op in 0x6B0
+9) while conditions are wrong b/c they try to pop the stack of stuff before it
+   is even present
+
+format issues:
+
+1) binary expressions extra parenthesis in an if statement
+2) readglobal has comma but it only takes single argument

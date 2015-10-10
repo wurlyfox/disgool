@@ -1,0 +1,1504 @@
+void func_0()
+{
+  if (((statusa tst 0x1) && ((velocity.y < 0) && (trans.y == groundy))))
+  {
+    if (field[0x178])
+      statusb &= 0xf7ffff9f;
+    else
+      statusb &= 0xffffff9f;
+    rot.y = 0;
+    velocity.y = 0;
+    if (self->landyvel)
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.2500, self->self, 12);
+      playsound(0x1666, 0x2a682049);
+      sender = field[0x178];
+      var var_0 = landyvel;
+      sendevent(0xe00, self->sender, 1, self->self, var_0);
+    }
+  }
+  if ((statusb tst 0.1250))
+    rot.y -= field[0x17c];
+  if (self->collider)
+  {
+    do
+    {
+      if ((self->subtype == 0x4))
+        state 13;
+      else
+        state 24;
+    } while (!((animframe + 0x100) < 0x800));
+    do
+    {
+      if (((abs((trans.x - collider->trans.x)) <= 0xc800) && ((abs((trans.z - collider->trans.z)) <= 0xc800) && (collider->trans.y > trans.y))))
+      {
+        var var_1 = speed(velocity.y, (trans.y + 0x19000));
+        if ((collider->trans.y < fp[0xc]))
+          collider->trans.y = fp[0xc];
+      }
+    } while (!((animframe + 0x100) < 0xd00));
+    statusb &= 0xfffffeff;
+    if ((field[0x190] & 0x100))
+    {
+      misc(self->id);
+      field[0x184] = trans.y;
+    }
+  }
+}
+
+void func_10c(arg1, arg2)
+{
+  misc = 0;
+  if ((sender && (((stampanim - field[0x19c]) >= 0x18) && (arg2 == 0x400))))
+  {
+    if (!((statusb tst 0.1250) && !(abs(player->speed) << 0xfffffffe)))
+    {
+      var var_2 = 0;
+      var var_3 = 0;
+      if ((field[0x178] || ((statusb tst 0.1250) && !(padread(0x1e4fe27, 2, 0, 8, 0) || padread(0x1e4fe27, 3, 0, 8, 0)))))
+        fp[0xc] = ((player->trans.y >= (trans.y - 0x5000)) && (player->trans.y <= (trans.y + 0x1b800)));
+      else
+        fp[0xc] = ((player->trans.y >= (trans.y - 0x32000)) && (player->trans.y <= (trans.y + 0x1b800)));
+      if (fp[0xc])
+      {
+        if (field[0x178])
+        {
+          fp[0x10] = sender;
+          sender = field[0x178];
+          misc(0x4f00, self->sender);
+          sender = fp[0x10];
+          misc = 0x100;
+        }
+      }
+      else if (field[0x178])
+      {
+        fp[0x10] = sender;
+        sender = field[0x178];
+        var var_4 = misc(arg1, 0);
+        sendevent(0x400, self->sender, 1, self->self, var_4);
+        sender = fp[0x10];
+      }
+    }
+  }
+}
+
+void func_1f0(arg1)
+{
+  trans.x += 0xc800;
+  trans.z += 0xc800;
+  statusb = 0x4014014;
+  if (self->modeflagsa)
+    field[0x180] = modeflagsa;
+  else
+    field[0x180] = arg1;
+  do
+  field[0x1a0] = modeflagsc;
+  if ((field[0x190] & 0x800))
+  {
+    zindex = 0;
+    do
+    {
+      zindex -= 0x18;
+      if ((field[0x190] & 0x40000))
+        zindex -= 0xc;
+    } while (!((animframe + 0x100) <= 0x1100));
+  }
+  else
+    zindex = 0x18;
+  hotspotclip = -0x2800;
+  if (((field[0x190] & 0x100) && !misc(self->id)))
+  {
+    statusb |= 0x100;
+    creator = 0;
+  }
+  field[0x178] = 0;
+  groundy = trans.y;
+  field[0x184] = trans.y;
+  field[0x17c] = (0x5 + random(0x2, 0));
+  field[0x19c] = 0;
+  misc(0x400);
+  var var_5 = velocity.x;
+  var var_6 = velocity.y;
+  if (!(field[0x190] & 0x8000))
+  {
+    velocity.x = 0;
+    velocity.y = 0;
+    animframe(field[0x170], 1, 3);
+    do
+    creator = fp[0x10];
+  }
+  if (!creator)
+    statusb |= 0x20000;
+  if (!field[0x178])
+    do
+  if ((field[0x190] & 0x200))
+  {
+    if (misc(self->id))
+      state 6;
+    else
+      state 5;
+  }
+  statusa |= 0x80000;
+}
+
+void func_308()
+{
+  writeglobal((readglobal(0x3e00) + 0x100), 0x3e00);
+  misc(0x300);
+  if (self->creator)
+  {
+    misc(0x4600, self->creator);
+    var var_7 = 0x64000;
+    sendevent(0x900, self->creator, 1, self->self, var_7);
+  }
+  else
+    statusb &= 0xffffffef;
+  if (field[0x178])
+  {
+    sender = field[0x178];
+    sender->creator = creator;
+    if ((field[0x178] && !creator))
+    {
+      sender = field[0x178];
+      sender->statusb |= 0x20000;
+    }
+  }
+}
+
+void func_364()
+{
+  if ((field[0x1a0] && !(field[0x190] & 0x2000)))
+  {
+    sender = misc(field[0x1a0]);
+    if (self->sender)
+      sendevent(0x800, self->sender, 0, self->self);
+    else
+      misc(field[0x1a0]);
+  }
+}
+
+void func_390()
+{
+  var var_8 = field[0x180];
+  if ((fp[0xc] == 0x6900))
+  {
+    if ((misc(self->id) || (readglobal(0x2e00) >= readglobal(0x1400))))
+      field[0x180] = 0x6500;
+  }
+  else if ((fp[0xc] == 0x6700))
+  {
+    if ((misc(self->id) || (((readglobal(0) == 0x2300) && (readglobal(0x4800) & 0x100000)) || ((readglobal(0) == 0x1d00) && (readglobal(0x4800) & 0x400)))))
+      field[0x180] = 0x6500;
+  }
+  else if ((fp[0xc] == 0x6800))
+  {
+    if (misc(self->id))
+      field[0x180] = 0x6500;
+  }
+  else if ((fp[0xc] == 0x6100))
+  {
+    if (misc(self->id))
+    {
+      if ((self->subtype == 0x8))
+      {
+        subtype = 0xa;
+        animpointer(0x1400);
+        field[0x170] = 0;
+        field[0x180] = 0x6500;
+      }
+    }
+  }
+}
+
+void func_44c(arg1, arg2, arg3, arg4)
+{
+  if ((modeflagsb & 0x20000))
+  {
+    if (((readglobal(0x2e00) >= readglobal(0x1400)) || misc(self->id)))
+    {
+      subtype = 0x4;
+      state 11;
+    }
+    if ((readglobal(0x4300) && (id == readglobal(0x4500))))
+    {
+      misc(self->id);
+      misc(self->id);
+      subtype = 0x4;
+      state 11;
+    }
+  }
+  if (((self->subtype == 0x11) || (self->subtype == 0x14)))
+  {
+    modeflagsb = 0x8400;
+    field[0x18c] = arg4;
+    rot.y = 0;
+    rot.x = 0;
+    rot.z = 0;
+    trans.x = arg3;
+    trans.y = arg2;
+    trans.z = arg1;
+  }
+  else
+    field[0x18c] = 0;
+  if (((self->subtype == 0xa) || (self->subtype == 0x11)))
+  {
+    animpointer(0x1400);
+    field[0x170] = 0;
+    unk_F8 = 0x6500;
+  }
+  else if ((self->subtype == 0x9))
+  {
+    animpointer(0x1e00);
+    field[0x170] = 0;
+    unk_F8 = 0x6600;
+  }
+  else if ((self->subtype == 0x8))
+  {
+    animpointer(0x1200);
+    field[0x170] = 0;
+    unk_F8 = 0x6100;
+  }
+  else if ((self->subtype == 0x14))
+  {
+    animpointer(0);
+    field[0x170] = 0;
+    unk_F8 = 0;
+  }
+  else if ((self->subtype == 0x15))
+  {
+    animpointer(0x1c00);
+    field[0x170] = 0;
+    unk_F8 = 0x6400;
+  }
+  else
+  {
+    animpointer(0);
+    field[0x170] = 0;
+    unk_F8 = 0x6400;
+  }
+}
+
+void func_5a8(arg1, arg2)
+{
+  if (self->sender)
+    return false state 24;
+  if ((arg2 == 0xa00))
+  {
+    if ((player->trans.y > (trans.y + 0x16800)))
+      return false state 25;
+    else
+      return false state 24;
+  }
+  else
+  {
+    if (((arg2 == 0x1d00) || (arg2 == 0x300)))
+    {
+      if ((misc(arg1, 0) && (arg2 == 0x300)))
+        return false state 23;
+      else
+        return false state 24;
+    }
+    var var_10 = arg2;
+    var var_11 = arg1;
+  }
+  func_10c(var_11, var_10);
+  if (self->misc)
+    return false state 24;
+  return false state 24;
+}
+
+void func_63c()
+{
+  func_0();
+}
+
+void func_644()
+{
+  animframe(field[0x170], 1, 3);
+  if (!(collider && misc(self->id)))
+    state 24;
+  do
+  {
+    animframe(field[0x170], 63, 3);
+  }
+}
+
+void func_660()
+{
+  animpointer(0xe00);
+  field[0x170] = 0;
+  var var_12 = 0;
+  func_1f0(var_12);
+  state 3;
+}
+
+void func_678()
+{
+  animpointer(0x1a00);
+  field[0x170] = 0;
+  var var_13 = 0x6400;
+  func_1f0(var_13);
+  func_390();
+  if (!misc(self->id))
+    state 6;
+  state 5;
+}
+
+void func_69c()
+{
+  statusb &= 0xffffffef;
+  do
+  {
+    animframe(field[0x170], 63, 3);
+  }
+}
+
+void func_6b0()
+{
+  return false state 6;
+}
+
+void func_6c8()
+{
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x1999, 0x16532049);
+  misc(self->id);
+  animframe(field[0x170], 6, 3);
+  if (!(field[0x190] & 0x10000))
+    func_364();
+  statusb |= 0.0625;
+  statusb &= 0xfffffeff;
+  func_390();
+  if ((self->subtype == 0xd))
+  {
+    var var_14 = field[0x180];
+    if ((fp[0xc] == 0x6100))
+    {
+      animpointer(0x1200);
+      field[0x170] = 0;
+    }
+    else if ((fp[0xc] == 0x6600))
+    {
+      animpointer(0x1e00);
+      field[0x170] = 0;
+    }
+    else if (((fp[0xc] == 0x6900) || ((fp[0xc] == 0x6700) || (fp[0xc] == 0x6800))))
+    {
+      animpointer(0x1400);
+      field[0x170] = 0;
+    }
+    else
+    {
+      animpointer(0);
+      field[0x170] = 0;
+    }
+  }
+  else if ((self->subtype == 0x13))
+  {
+    animpointer(0xe00);
+    field[0x170] = 0;
+  }
+  if (((self->subtype == 0x3) || (self->subtype == 0xf)))
+  {
+    field[0x1a4] = 0x1bf36a;
+    state 17;
+  }
+  else if (((self->subtype == 0x5) || (self->subtype == 0x13)))
+    state 3;
+  else if ((self->subtype == 0))
+    state 27;
+  else if ((self->subtype == 0x7))
+    state 8;
+  else if ((field[0x190] & 0x4000))
+    state 24;
+  else
+    state 1;
+}
+
+void func_7e8()
+{
+  if (!misc(self->id))
+    state 2;
+  animpointer(0x1600);
+  field[0x170] = 0;
+  var var_15 = 0x6400;
+  func_1f0(var_15);
+  state 8;
+}
+
+void func_808(arg1, arg2)
+{
+  if (self->sender)
+    return false state 9;
+  return false state 9;
+  var var_16 = arg2;
+  var var_17 = arg1;
+  func_10c(var_17, var_16);
+  if (self->misc)
+    return false state 10;
+  return false state 9;
+  return false state 9;
+}
+
+void func_878()
+{
+  misc(self->id);
+  var var_18 = 0x900;
+  var var_19 = 0;
+  var var_20 = 0;
+  var var_21 = 0xc800;
+  spawn(1, 34, 22, 4, var_21, var_20, var_19, var_18);
+  var var_22 = 0x900;
+  var var_23 = 0xc800;
+  var var_24 = 0;
+  var var_25 = 0;
+  spawn(1, 34, 22, 4, var_25, var_24, var_23, var_22);
+  var var_26 = 0x900;
+  var var_27 = 0;
+  var var_28 = 0;
+  var var_29 = -0xc800;
+  spawn(1, 34, 22, 4, var_29, var_28, var_27, var_26);
+  var var_30 = 0x900;
+  var var_31 = -0xc800;
+  var var_32 = 0;
+  var var_33 = 0;
+  spawn(1, 34, 22, 4, var_33, var_32, var_31, var_30);
+  var var_34 = 0x900;
+  var var_35 = 0;
+  var var_36 = 0x25800;
+  var var_37 = 0;
+  spawn(1, 34, 22, 4, var_37, var_36, var_35, var_34);
+  animpointer(0xe00);
+  field[0x170] = 0;
+  state 3;
+}
+
+void func_8c8()
+{
+  var var_38 = 0x300;
+  sendevent(0xf00, self->player, 1, self->self, var_38);
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x1fff, 0x39016049);
+  animpointer(0x1600);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0x900));
+  func_364();
+  if (!(readglobal(0) == 0x2900))
+  {
+    func_878();
+    state 8;
+  }
+}
+
+void func_91c()
+{
+  var var_39 = 0x300;
+  sendevent(0xf00, self->player, 1, self->self, var_39);
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x1fff, 0x39016049);
+  animpointer(0x1800);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0x900));
+  func_364();
+  if (!(readglobal(0) == 0x2900))
+  {
+    func_878();
+    state 8;
+  }
+}
+
+void func_970()
+{
+  if (misc(self->id))
+  {
+    animpointer(0x2000);
+    field[0x170] = 0xf00;
+  }
+  else
+  {
+    animpointer(0x2000);
+    field[0x170] = 0;
+  }
+  var var_40 = 0x6400;
+  func_1f0(var_40);
+  if (!(misc(self->id) || collider))
+    state 13;
+  do
+  {
+    animframe(field[0x170], 63, 3);
+  }
+}
+
+void func_9ac(arg1, arg2)
+{
+  if (self->sender)
+  {
+    return false state 12;
+    var var_41 = arg2;
+    var var_42 = arg1;
+  }
+  func_10c(var_42, var_41);
+  if (self->misc)
+    return false state 12;
+  if (((arg2 == 0x300) || (arg2 == 0xa00)))
+  {
+    if ((misc(arg1, 0) && (arg2 == 0x300)))
+      return false state 23;
+    else
+      return false state 12;
+  }
+  return false state 12;
+}
+
+void func_a1c()
+{
+  func_0();
+}
+
+void func_a24()
+{
+  writeglobal(id, 0x4500);
+  writeglobal(trans.x, 0x6600);
+  writeglobal(trans.y, 0x6700);
+  writeglobal(trans.z, 0x6800);
+  writeglobal((readglobal(0x3e00) + 0x100), 0x3e00);
+  writeglobal((readglobal(0x3e00) + 0x100), 0x3e00);
+  misc(self->id);
+  var var_43 = 0x64000;
+  sendevent(0x900, self->creator, 1, self->self, var_43);
+  if (!creator)
+    statusb &= 0xffffffef;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x1332, 0x18c2e049);
+  animpointer(0x2000);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0xf00));
+  animsequence(14, 32, 1, 3);
+  zindex = 0x14;
+  statusb &= 0xffffffef;
+  if ((field[0x178] && !creator))
+  {
+    sender = field[0x178];
+    sender->statusb |= 0x20000;
+  }
+  if (!((readglobal(0) == 0x1100) || (readglobal(0) == 0x1e00)))
+  {
+    var var_44 = 0;
+    var var_45 = 0xfffe2000;
+    spawn(1, 34, 14, 2, var_45, var_44);
+    animsequence(15, 32, 3, 3);
+    var var_46 = 0x100;
+    var var_47 = -0xf000;
+    spawn(1, 34, 14, 2, var_47, var_46);
+    animsequence(15, 32, 3, 3);
+    var var_48 = 0x200;
+    var var_49 = 0;
+    spawn(1, 34, 14, 2, var_49, var_48);
+    animsequence(15, 32, 3, 3);
+    var var_50 = 0;
+    var var_51 = 0xf000;
+    spawn(1, 34, 14, 2, var_51, var_50);
+    animsequence(15, 32, 3, 3);
+    var var_52 = 0x300;
+    var var_53 = 0x1e000;
+    spawn(1, 34, 14, 2, var_53, var_52);
+    animsequence(15, 32, 36, 3);
+    var var_54 = 0x400;
+    var var_55 = 0xfffe2000;
+    spawn(1, 34, 14, 2, var_55, var_54);
+    animsequence(15, 32, 3, 3);
+    var var_56 = 0x500;
+    var var_57 = -0xf000;
+    spawn(1, 34, 14, 2, var_57, var_56);
+    animsequence(15, 32, 3, 3);
+    var var_58 = 0x600;
+    var var_59 = 0;
+    spawn(1, 34, 14, 2, var_59, var_58);
+    animsequence(15, 32, 3, 3);
+    var var_60 = 0x700;
+    var var_61 = 0xf000;
+    spawn(1, 34, 14, 2, var_61, var_60);
+    animsequence(15, 32, 3, 3);
+    var var_62 = 0x800;
+    var var_63 = 0x1e000;
+    spawn(1, 34, 14, 2, var_63, var_62);
+    do
+    {
+      animsequence(15, 32, 63, 3);
+    }
+  }
+}
+
+void func_b50()
+{
+  if ((readglobal(0x4300) && (id == readglobal(0x4500))))
+    writeglobal((readglobal(0x3e00) + 0x100), 0x3e00);
+  statusb &= 0xffffffef;
+  zindex = 0x14;
+  animsequence(15, 32, 1, 3);
+  var var_64 = 0x64000;
+  sendevent(0x900, self->creator, 1, self->self, var_64);
+  if ((field[0x178] && !creator))
+  {
+    sender = field[0x178];
+    sender->statusb |= 0x20000;
+    do
+    {
+      animsequence(15, 32, 63, 3);
+    }
+  }
+}
+
+void func_bac(arg1, arg2, arg3, arg4)
+{
+  zindex = 0x23;
+  scale.x = 0x800;
+  scale.y = 0x1000;
+  scale.z = 0x800;
+  rot.y = 0;
+  rot.x = 0;
+  rot.z = 0;
+  animpointer(0x7000);
+  animframe = (arg4 + 0);
+  trans.x += arg3;
+  trans.y += arg2;
+  trans.z += arg1;
+  velocity.x = (arg3 << 0x6);
+  velocity.y = (arg2 << 0xffffffff);
+  velocity.z = (arg1 << 0x6);
+  statusb = 0.2500;
+  animframe(animframe, 60, 3);
+  if (arg2)
+  {
+    statusb = 0;
+    do
+    {
+      animseq = 0;
+      animframe(0, 2, 3);
+      animpointer(0x7000);
+      animframe((fp[-0x310] + 0), 2, 3);
+      fp[0xc] += 0x100;
+    } while (!(fp[0xc] < 0x800));
+    0, = 0;
+  }
+}
+
+void func_c48(arg1)
+{
+  zindex = 0x19;
+  scale.x = 0;
+  scale.y = 0;
+  scale.z = 0;
+  animpointer(0x7000);
+  audiob((0x3d7 + random(0x51, 0)), self->self, 1);
+  audiob(0.1250, self->self, 12);
+  playsound(0x333, 0x26b32049);
+  do
+  {
+    trans.x += (arg1 / 0x5);
+    scale.x += 0x1eb;
+    scale.y = scale.x;
+    trans.y += 0xa000;
+    animframe(fp[-0x308], 1, 3);
+    fp[0xc] += 0x100;
+  } while (!(fp[0xc] < 0x500));
+  0, = 0;
+  groundy = trans.y;
+  velocity.y = 0x5000;
+  do
+  {
+    var var_65 = 0x5000;
+    var var_66 = 0x800;
+    trans.y = (groundy + (trianglewave(&velocity.y, var_66, var_65) - 0x5000));
+    animframe(animframe, 1, 3);
+  } while (!((stampanim - fp[0xc]) < 0x15));
+  0, = stampanim;
+  statusb = 0.2500;
+  velocity.x = 0xffe0c000;
+  velocity.y = 0;
+  velocity.z = 0;
+  audiob((0x3d7 + random(0x51, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x999, 0x26b32049);
+  do
+  {
+    velocity.x = speed(0xffc18000, velocity.x);
+    animframe(animframe, 1, 3);
+  } while (!((stampanim - fp[0xc]) < 0x1e));
+  0, = stampanim;
+}
+
+void func_d28()
+{
+  if ((self->subtype == 0x3))
+  {
+    animpointer(0xc00);
+    field[0x170] = 0;
+  }
+  else
+  {
+    animpointer(0x2200);
+    field[0x170] = 0;
+  }
+  field[0x1a4] = modeflagsc;
+  var var_67 = 0x6400;
+  func_1f0(var_67);
+  if ((!(field[0x190] & 0x2000) || !field[0x1a4]))
+  {
+    field[0x1a4] = 0x1bf36a;
+    state 17;
+  }
+}
+
+void func_d70()
+{
+  if ((self->subtype == 0xf))
+  {
+    stateflags |= 0x800;
+    do
+    {
+      animframe(field[0x170], 63, 3);
+    }
+  }
+}
+
+void func_d8c(arg1, arg2)
+{
+  if (((player->trans.y > (trans.y + 0xc800)) && ((sender == player) && ((arg2 == 0) && !creator))))
+  {
+    var var_68 = field[0x1a4];
+    sendevent(0x1500, self->sender, 1, self->self, var_68);
+    return true state 18;
+  }
+  if ((self->subtype == 0x3))
+  {
+    var var_69 = arg2;
+    var var_70 = arg1;
+    func_10c(var_70, var_69);
+    if (self->misc)
+      return false state 24;
+    if ((arg2 == 0xa00))
+    {
+      if ((player->trans.y > (trans.y + 0x16800)))
+        return false state 25;
+      else
+        return false state 24;
+    }
+    else if (((arg2 == 0x1d00) || (arg2 == 0x300)))
+    {
+      if ((misc(arg1, 0) && (arg2 == 0x300)))
+        return false state 23;
+      else
+        return false state 24;
+    }
+    return false state 24;
+  }
+  return false state 19;
+}
+
+void func_e38()
+{
+  if ((self->subtype == 0xf))
+  {
+    animpointer(0x2200);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0x900));
+    animsequence(8, 34, 1, 3);
+    animsequence(9, 34, 1, 3);
+  }
+  else
+  {
+    animpointer(0xc00);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0x900));
+    animsequence(8, 12, 1, 3);
+    animsequence(9, 12, 1, 3);
+  }
+}
+
+void func_e90()
+{
+  if ((self->subtype == 0xf))
+    stateflags |= 0x800;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0x1999, 0x16b98049);
+  func_e38();
+  state 17;
+}
+
+void func_ec0()
+{
+  statusb |= 0x20000;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0x999, 0x16b98049);
+  var var_71 = 0x1bf36a;
+  sendevent(0x1500, self->creator, 1, self->self, var_71);
+  func_e38();
+  state 17;
+}
+
+void func_ef0(arg1, arg2)
+{
+  if ((player->trans.y > (trans.y + 0x12c00)))
+    return true state 18;
+  if ((self->subtype == 0x3))
+  {
+    var var_72 = arg2;
+    var var_73 = arg1;
+    func_10c(var_73, var_72);
+    if (self->misc)
+      return false state 24;
+    if ((arg2 == 0xa00))
+    {
+      if ((player->trans.y > (trans.y + 0x16800)))
+        return false state 25;
+      else
+        return false state 24;
+    }
+    else if (((arg2 == 0x1d00) || (arg2 == 0x300)))
+    {
+      if ((misc(arg1, 0) && (arg2 == 0x300)))
+        return false state 23;
+      else
+        return false state 24;
+    }
+    return false state 24;
+  }
+}
+
+void func_f80()
+{
+  animpointer(0x1000);
+  field[0x170] = 0;
+  var var_74 = 0x4c00;
+  func_1f0(var_74);
+  func_390();
+  field[0x188] = 0;
+  state 21;
+}
+
+void func_fa0(arg1, arg2)
+{
+  if ((player->trans.y > (trans.y + 0x12c00)))
+    return false state 22;
+  if ((arg2 == 0xa00))
+  {
+    if ((field[0x180] == 0x4c00))
+    {
+      field[0x180] = 0x4e00;
+      return false state 24;
+    }
+  }
+  return false state 23;
+  var var_75 = arg2;
+  var var_76 = arg1;
+  func_10c(var_76, var_75);
+  if (self->misc)
+    return false state 23;
+  if ((arg2 == 0x1700))
+  {
+    return false state 23;
+    return false state 22;
+  }
+}
+
+void func_1014()
+{
+  if (!field[0x188])
+    field[0x18c] = stampanim;
+  field[0x188] += 0x100;
+  if (!(misc(0x4a00, self->self) >= 0xa00))
+    state 24;
+  if (!((stampanim - field[0x18c]) >= 0x96))
+    state 23;
+  var var_77 = 0x4c00;
+  var var_78 = 0;
+  spawn(1, 3, 13, 2, var_78, var_77);
+  animpointer(0x1000);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0x900));
+  animsequence(8, 16, 1, 3);
+  animsequence(9, 16, 1, 3);
+  state 21;
+}
+
+void func_1074()
+{
+  misc(id, 5);
+  misc(self->id);
+  func_308();
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0x1666, 0x16da8049);
+  if (!random(0x2, 0))
+  {
+    self->scale.x = -self->scale.x;
+    animsequence(0, 2, 1, 3);
+  }
+  animsequence(1, 2, 1, 3);
+  animsequence(2, 2, 1, 3);
+  animsequence(3, 2, 1, 3);
+  statusb &= 0xffffffef;
+  animframe = 0x300;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0xd00));
+}
+
+void func_10dc()
+{
+  misc(id, 5);
+  misc(self->id);
+  func_308();
+  unk_F8 = 0;
+  var var_79 = field[0x180];
+  if (((fp[0xc] == 0x6700) || ((fp[0xc] == 0x6800) || (fp[0xc] == 0x6900))))
+  {
+    unk_F8 = id;
+    if (!(field[0x190] & 0x20000))
+      misc(self->id);
+  }
+  else if ((fp[0xc] == 0x6100))
+    unk_F8 = id;
+  else if ((fp[0xc] == 0x6600))
+  {
+    if (((readglobal(0) == 0x2800) || (readglobal(0) == 0x2a00)))
+    {
+      sender = readglobal(0x1000);
+      unk_F8 = (field[0x1a0] << 0xfffffff8);
+      var var_80 = 0x700;
+      sendevent(0xf00, self->sender, 1, self->self, var_80);
+    }
+  }
+}
+
+void func_1224()
+{
+  do
+  {
+    animframe(field[0x170], 1, 3);
+  } while (!((stampanim - fp[0xc]) < 0xf));
+  0, = stampanim;
+  state 24;
+}
+
+void func_1244(arg1, arg2)
+{
+  var var_87 = arg2;
+  if ((fp[0xc] == 0x6100))
+  {
+    var var_88 = 0x100;
+    sendevent(0x500, self->player, 1, self->self, var_88);
+    if (!(readglobal(0x1e00) & 0x2000))
+      misc(fp[-0x304]);
+  }
+  else
+  {
+    var var_89 = 0x100;
+    sendevent(0x200, self->player, 1, self->self, var_89);
+  }
+}
+
+void func_1280(arg1, arg2, arg3, arg4, arg5)
+{
+  if ((self->subtype == 0.0625))
+  {
+    modeflagsb = 0x8000;
+    rot.y = 0;
+    rot.x = 0;
+    rot.z = 0;
+    trans.x = arg3;
+    trans.y = arg2;
+    trans.z = arg1;
+  }
+  if ((self->subtype == 0xb))
+  {
+    subtype = 0;
+    animpointer(0x400);
+  }
+  field[0x170] = 0;
+  field[0x194] = 0x3c;
+  field[0x198] = random(0x3c, 0);
+  var var_90 = 0x6400;
+  func_1f0(var_90);
+  if ((self->subtype == 0.0625))
+  {
+    statusb |= 0x8000060;
+    trans.y += arg5;
+    field[0x194] = arg4;
+    state 28;
+    do
+    {
+      animframe(field[0x170], 63, 3);
+    }
+  }
+}
+
+void func_12f8(arg1, arg2)
+{
+  if (self->sender)
+    return false state 28;
+  return false state 28;
+  if ((arg2 == 0x1700))
+  {
+    return false state 29;
+    return false state 28;
+  }
+  return false state 29;
+  var var_91 = arg2;
+  var var_92 = arg1;
+  func_10c(var_92, var_91);
+  if (self->misc)
+    return false state 29;
+}
+
+void func_1368()
+{
+  func_0();
+  if (!(statusa tst 0.1250))
+  {
+    if (sawwave(field[0x198], field[0x194]))
+    {
+      writecolor(self->self, intensity.r, 0xff);
+      writecolor(self->self, intensity.g, 0xff);
+      writecolor(self->self, intensity.b, 0xff);
+      writecolor(self->self, colormatrix.v1x, 0xff);
+      writecolor(self->self, colormatrix.v1y, 0xff);
+      writecolor(self->self, colormatrix.v1z, 0xff);
+      writecolor(self->self, colormatrix.v2x, 0xff);
+      writecolor(self->self, colormatrix.v2y, 0xff);
+      writecolor(self->self, colormatrix.v2z, 0xff);
+      writecolor(self->self, colormatrix.v3x, 0xff);
+      writecolor(self->self, colormatrix.v3y, 0xff);
+      writecolor(self->self, colormatrix.v3z, 0xff);
+    }
+    else
+    {
+      writecolor(self->self, intensity.r, 0x200);
+      writecolor(self->self, intensity.g, 0x96);
+      writecolor(self->self, intensity.b, 0x96);
+      writecolor(self->self, colormatrix.v1x, 0x200);
+      writecolor(self->self, colormatrix.v1y, 0x96);
+      writecolor(self->self, colormatrix.v1z, 0x96);
+      writecolor(self->self, colormatrix.v2x, 0x200);
+      writecolor(self->self, colormatrix.v2y, 0x96);
+      writecolor(self->self, colormatrix.v2z, 0x96);
+      writecolor(self->self, colormatrix.v3x, 0x200);
+      writecolor(self->self, colormatrix.v3y, 0x96);
+      writecolor(self->self, colormatrix.v3z, 0x96);
+    }
+  }
+}
+
+void func_13e8()
+{
+  do
+  {
+    animframe(field[0x170], 63, 3);
+  }
+}
+
+void func_13f4()
+{
+  writecolor(self->self, intensity.r, 0x200);
+  writecolor(self->self, intensity.g, 0x96);
+  writecolor(self->self, intensity.b, 0x96);
+  writecolor(self->self, colormatrix.v1x, 0x200);
+  writecolor(self->self, colormatrix.v1y, 0x96);
+  writecolor(self->self, colormatrix.v1z, 0x96);
+  writecolor(self->self, colormatrix.v2x, 0x200);
+  writecolor(self->self, colormatrix.v2y, 0x96);
+  writecolor(self->self, colormatrix.v2z, 0x96);
+  writecolor(self->self, colormatrix.v3x, 0x200);
+  writecolor(self->self, colormatrix.v3y, 0x96);
+  writecolor(self->self, colormatrix.v3z, 0x96);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 10, 6, 3);
+  writecolor(self->self, intensity.r, 0xff);
+  writecolor(self->self, intensity.g, 0xff);
+  writecolor(self->self, intensity.b, 0xff);
+  writecolor(self->self, colormatrix.v1x, 0xff);
+  writecolor(self->self, colormatrix.v1y, 0xff);
+  writecolor(self->self, colormatrix.v1z, 0xff);
+  writecolor(self->self, colormatrix.v2x, 0xff);
+  writecolor(self->self, colormatrix.v2y, 0xff);
+  writecolor(self->self, colormatrix.v2z, 0xff);
+  writecolor(self->self, colormatrix.v3x, 0xff);
+  writecolor(self->self, colormatrix.v3y, 0xff);
+  writecolor(self->self, colormatrix.v3z, 0xff);
+  animsequence(0, 10, 36, 3);
+  writecolor(self->self, intensity.r, 0x200);
+  writecolor(self->self, intensity.g, 0x96);
+  writecolor(self->self, intensity.b, 0x96);
+  writecolor(self->self, colormatrix.v1x, 0x200);
+  writecolor(self->self, colormatrix.v1y, 0x96);
+  writecolor(self->self, colormatrix.v1z, 0x96);
+  writecolor(self->self, colormatrix.v2x, 0x200);
+  writecolor(self->self, colormatrix.v2y, 0x96);
+  writecolor(self->self, colormatrix.v2z, 0x96);
+  writecolor(self->self, colormatrix.v3x, 0x200);
+  writecolor(self->self, colormatrix.v3y, 0x96);
+  writecolor(self->self, colormatrix.v3z, 0x96);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 8, 6, 3);
+  writecolor(self->self, intensity.r, 0xff);
+  writecolor(self->self, intensity.g, 0xff);
+  writecolor(self->self, intensity.b, 0xff);
+  writecolor(self->self, colormatrix.v1x, 0xff);
+  writecolor(self->self, colormatrix.v1y, 0xff);
+  writecolor(self->self, colormatrix.v1z, 0xff);
+  writecolor(self->self, colormatrix.v2x, 0xff);
+  writecolor(self->self, colormatrix.v2y, 0xff);
+  writecolor(self->self, colormatrix.v2z, 0xff);
+  writecolor(self->self, colormatrix.v3x, 0xff);
+  writecolor(self->self, colormatrix.v3y, 0xff);
+  writecolor(self->self, colormatrix.v3z, 0xff);
+  animsequence(0, 8, 15, 3);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 8, 21, 3);
+  writecolor(self->self, intensity.r, 0x200);
+  writecolor(self->self, intensity.g, 0x96);
+  writecolor(self->self, intensity.b, 0x96);
+  writecolor(self->self, colormatrix.v1x, 0x200);
+  writecolor(self->self, colormatrix.v1y, 0x96);
+  writecolor(self->self, colormatrix.v1z, 0x96);
+  writecolor(self->self, colormatrix.v2x, 0x200);
+  writecolor(self->self, colormatrix.v2y, 0x96);
+  writecolor(self->self, colormatrix.v2z, 0x96);
+  writecolor(self->self, colormatrix.v3x, 0x200);
+  writecolor(self->self, colormatrix.v3y, 0x96);
+  writecolor(self->self, colormatrix.v3z, 0x96);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 6, 6, 3);
+  writecolor(self->self, intensity.r, 0xff);
+  writecolor(self->self, intensity.g, 0xff);
+  writecolor(self->self, intensity.b, 0xff);
+  writecolor(self->self, colormatrix.v1x, 0xff);
+  writecolor(self->self, colormatrix.v1y, 0xff);
+  writecolor(self->self, colormatrix.v1z, 0xff);
+  writecolor(self->self, colormatrix.v2x, 0xff);
+  writecolor(self->self, colormatrix.v2y, 0xff);
+  writecolor(self->self, colormatrix.v2z, 0xff);
+  writecolor(self->self, colormatrix.v3x, 0xff);
+  writecolor(self->self, colormatrix.v3y, 0xff);
+  writecolor(self->self, colormatrix.v3z, 0xff);
+  animsequence(0, 6, 4, 3);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 6, 10, 3);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 6, 10, 3);
+  if ((readglobal(0) == 0x2100))
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x1999, 0x6ee96049);
+  }
+  else
+  {
+    audiob(0x400, self->self, 1);
+    playsound(0x3332, 0x6ee96049);
+  }
+  animsequence(0, 6, 10, 3);
+  state 29;
+}
+
+void func_1624(arg1, arg2)
+{
+  return false state 29;
+  var var_93 = arg2;
+  var var_94 = arg1;
+  func_10c(var_94, var_93);
+  if (self->misc)
+    return false state 29;
+  if ((statusb tst 0.1250))
+    return false state 29;
+  if ((arg2 == 0x1a00))
+  {
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0.7500, self->self, 12);
+    playsound(0x3fff, 0x3abba049);
+    audiob(0, self->unk_14C, 5);
+    writeglobal((readglobal(0x3e00) + 0x100), 0x3e00);
+    misc(id, 5);
+  }
+}
+
+void func_1690()
+{
+  func_0();
+}
+
+void func_1698()
+{
+  statusb &= 0xffffffef;
+  misc(id, 5);
+  misc(self->id);
+  func_308();
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.7500, self->self, 12);
+  playsound(0x3fff, 0x3abba049);
+  audiob(0, self->unk_14C, 5);
+  statusb &= 0xf7fcffff;
+  statusb |= 0.0625;
+  if (!random(0x2, 0))
+  {
+    self->scale.x = -self->scale.x;
+    animsequence(0, 2, 1, 3);
+  }
+  var var_95 = 0x1;
+  spawn(3, 34, 1, 1, var_95);
+  var var_96 = 0;
+  spawn(5, 34, 1, 1, var_96);
+  animsequence(1, 2, 1, 3);
+  var var_97 = 0x1;
+  spawn(2, 34, 1, 1, var_97);
+  var var_98 = 0;
+  spawn(3, 34, 1, 1, var_98);
+  animsequence(2, 2, 1, 3);
+  var var_99 = 0x1;
+  spawn(1, 34, 1, 1, var_99);
+  animframe = 0x200;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) < 0xd00));
+}
+
+void func_1738(arg1, arg2)
+{
+  if ((arg2 == 0x1c00))
+  {
+    statusb |= 0x2000000;
+    writeglobal(self, 0x2400);
+    writeglobal(0, 0x3100);
+    writeglobal((readglobal(0x400) & 0xfffbffff), 0x400);
+    var var_100 = 0;
+    unkevent(0x1c00, self->self, 1, self->self, var_100);
+    return false state 30;
+  }
+}
+
+void func_176c()
+{
+  if (!(statusa tst 0.1250))
+  {
+    var var_101 = 0x6400;
+    var var_102 = 0x400;
+    sendevent(0xf00, self->sender, 1, self->self, var_102);
+    sendevent(0x1e00, self->collider, 1, (unk_F8 <= 0x200), var_101);
+    var var_103 = 0x1;
+    broadcastevent(0x300, self->creator, 1, self->self, var_103);
+  }
+}
+
+void func_1798()
+{
+  animsequence(2, 2, 1, 3);
+  var var_104 = 0x1;
+  spawn(2, 34, 1, 1, var_104);
+  var var_105 = 0;
+  spawn(3, 34, 1, 1, var_105);
+  animsequence(3, 2, 2, 3);
+  var var_106 = 0x1;
+  spawn(1, 34, 1, 1, var_106);
+  var var_107 = 0;
+  spawn(2, 34, 1, 1, var_107);
+  animsequence(4, 2, 2, 3);
+  var var_108 = 0x1;
+  spawn(1, 34, 1, 1, var_108);
+  var var_109 = 0;
+  spawn(2, 34, 1, 1, var_109);
+  animframe = 0x400;
+  do
+  {
+    animframe((animframe + 0x100), 2, 3);
+  } while ();
+  var var_110 = 0;
+  spawn(3, 34, 1, 1, var_110);
+  animframe = 0x800;
+  do
+  {
+    animframe((animframe + 0x100), 2, 3);
+  } while ();
+  pctrans = 0;
+  statusb = 0x100;
+  do
+  {
+    animframe(animframe, 63, 3);
+  }
+}
+
+void func_1820()
+{
+  if (!(statusa tst 0.1250))
+  {
+    var var_111 = 0x1;
+    broadcastevent(0x300, self->creator, 1, self->self, var_111);
+  }
+}
+
+void func_1838(arg1)
+{
+  misc(0x300);
+  zindex = 0x32;
+  rot.y = 0;
+  rot.x = 0;
+  rot.z = random(0x1000, 0);
+  trans.y += 0x12c00;
+  statusb = 0.2500;
+  if ((creator->statusb tst 0x2000000))
+  {
+    statusb |= 0x2000000;
+    unk_F8 = arg1;
+  }
+  var var_112 = arg1;
+  if ((fp[0xc] == 0))
+  {
+    scale.x = 0x800;
+    scale.y = 0x800;
+    scale.z = 0x800;
+    if (!random(0x2, 0))
+    {
+      self->scale.x = -self->scale.x;
+      animframe = 0;
+    }
+    if (!random(0x2, 0))
+      velocity.x = (0xfa000 + random(0x7d000, 0));
+    else
+      velocity.x = -(0xfa000 + random(0x7d000, 0));
+    velocity.y = (0 + random(0xfa000, 0));
+    if (!random(0x2, 0))
+      velocity.z = (0xfa000 + random(0x7d000, 0));
+    else
+      velocity.z = -(0xfa000 + random(0x7d000, 0));
+    if ((self->subtype == 0x1))
+    {
+      animpointer(0x4a00);
+      animframe = -0x100;
+      do
+      {
+        animframe((animframe + 0x100), 1, 3);
+      } while ();
+    }
+    animpointer(0x2400);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+  }
+}
+
+if ((fp[0xc] == 0x1))
+{
+  scale.x = 0x2000;
+  scale.y = 0x2000;
+  scale.z = 0x2000;
+  if (!random(0x2, 0))
+    self->scale.x = -self->scale.x;
+  trans.x += random(0xc801, -0xc800);
+  trans.z += random(0xc801, -0xc800);
+  if (!random(0x2, 0))
+    velocity.x = (0 + random(0x32000, 0));
+  else
+    velocity.x = -(0 + random(0x32000, 0));
+  velocity.y = (0x32000 + random(0x7d000, 0));
+  if (!random(0x2, 0))
+    velocity.z = (0 + random(0x32000, 0));
+  else
+    velocity.z = -(0 + random(0x32000, 0));
+  if ((self->subtype == 0x1))
+  {
+    animframe = (0 + (random(0x3, 0) << 0x8));
+    animpointer(0x4a00);
+    do
+    {
+      animframe(animframe, 1, 3);
+      animframe += 0x100;
+    } while ();
+  }
+  animframe = (0 + (random(0x3, 0) << 0x8));
+  animpointer(0x2400);
+  do
+  {
+    animframe(animframe, 1, 3);
+    animframe += 0x100;
+  } while ();
+}
+
+

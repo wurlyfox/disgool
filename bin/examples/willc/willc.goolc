@@ -1,0 +1,165 @@
+void func_0(arg1)
+{
+  writeglobal(fp[-0x304], 0x1100);
+  if ((arg1 == 0x200))
+  {
+    writeglobal(ireg[0x278], 0x1200);
+    var var_0 = arg1;
+  }
+  if ((fp[0xc] == 0x200))
+  {
+    writeglobal(0, 0x1800);
+    writeglobal(0, 0x1a00);
+    writeglobal(0, 0x1900);
+    writeglobal(0, 0x1b00);
+    writeglobal(0, 0x1c00);
+    writeglobal(0, 0x1d00);
+  }
+  else if (((fp[0xc] == 0x300) || ((fp[0xc] == 0x400) || ((fp[0xc] == 0x100) || (fp[0xc] == 0x500)))))
+  {
+    writeglobal(field[0x164], 0x1800);
+    writeglobal(field[0x160], 0x1a00);
+    var var_1 = readglobal(0,);
+    if (((fp[0x10] == 0xa00) || ((fp[0x10] == 0x800) || ((fp[0x10] == 0x1700) || ((fp[0x10] == 0x1b00) || ((fp[0x10] == 0x1f00) || (fp[0x10] == 0x2100)))))))
+      writeglobal(0, 0x1900);
+    else
+    {
+      var var_2 = 0x400;
+      sendevent(0xf00, self->creator, 1, self->self, var_2);
+      writeglobal(unk_F8, 0x1900);
+    }
+    writeglobal(field[0x178], 0x1b00);
+    writeglobal(field[0x180], 0x1c00);
+    writeglobal(field[0x17c], 0x1d00);
+  }
+}
+
+void func_c4()
+{
+  field[0x1a8] = 0x700;
+  field[0x160] = readglobal(0,);
+  animcounter = 0x6400;
+  field[0x164] = readglobal(0,);
+  field[0x178] = readglobal(0,);
+  field[0x17c] = readglobal(0,);
+  field[0x180] = readglobal(0,);
+  field[0x194] = 0;
+  field[0x168] = 0;
+  field[0x16c] = ireg[0x2a8];
+  field[0x198] = ireg[0x308];
+  field[0x188] = 0;
+  field[0x19c] = 0;
+  field[0x1a0] = 0;
+  field[0x1a4] = 0;
+  field[0x188] = 0;
+  func_1b8();
+  var var_3 = readglobal(0,);
+  if (((fp[0xc] == 0xa00) || ((fp[0xc] == 0x800) || ((fp[0xc] == 0x1b00) || ((fp[0xc] == 0x1700) || ((fp[0xc] == 0x2100) || (fp[0xc] == 0x1f00)))))))
+    writeglobal(0x200, 0x1900);
+  else if (((fp[0xc] == 0x1100) || (fp[0xc] == 0x1e00)))
+    writeglobal(0, 0x1900);
+  var var_4 = readglobal(0,);
+  spawn(1, 5, 0, 1, var_4);
+  var var_5 = 0;
+  var var_6 = 0x1000;
+  var var_7 = 0;
+  spawn(1, 29, 0, 3, var_7, var_6, var_5);
+  statusc &= ireg[0x340];
+  var var_8 = readglobal(0,);
+  if ((fp[0xc] == 0x900))
+    state 34;
+  else
+    state 40;
+}
+
+void func_1b8()
+{
+  writeglobal(ireg[0x13c], 0x400);
+  statusb = ireg[0x148];
+  collider = 0;
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = 0;
+  rot.x = 0;
+  rot.z = 0;
+  field[0x190] = ireg[0x1a4];
+  targetrot.y = rot.y;
+  targetrot.x = 0x2000;
+  approachyz = ireg[0x23c];
+  camzoom = 0;
+  unk_150 = 0x400;
+  scale.x = 0x1000;
+  scale.y = 0x1000;
+  scale.z = 0x1000;
+  if ((displaymode == ireg[0x24c]))
+  {
+    self->displaymode = 0;
+    self->unk_12C = stampanim;
+  }
+}
+
+void func_210()
+{
+  func_1b8();
+  field[0x1a0] = 0;
+  if (!displaymode)
+  {
+    self->displaymode = ireg[0x264];
+    self->unk_12C = stampanim;
+  }
+}
+
+void func_22c()
+{
+  var var_9 = targetrot.y;
+  var var_10 = velocity.y;
+  func_1b8();
+  velocity.y = fp[0x10];
+  targetrot.y = fp[0xc];
+  rot.y = targetrot.y;
+}
+
+void func_248()
+{
+  var var_11 = field[0x1a8];
+  if ((fp[0xc] == 0x700))
+  else if ((fp[0xc] == 0x1000))
+  {
+    entryoperation(ireg[0xc], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+    entryoperation(ireg[0x14], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+  }
+  else if ((fp[0xc] == 0x1100))
+  {
+    entryoperation(ireg[0xc], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+    entryoperation(ireg[0x14], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+    sendevent(0xc00, self->children, 0, self->self);
+  }
+  else if ((fp[0xc] == 0x1200))
+  {
+    entryoperation(ireg[0x14], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+    entryoperation(ireg[0x18], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+    sendevent(0xc00, self->children, 0, self->self);
+  }
+  else if ((fp[0xc] == 0x1300))
+  {
+    entryoperation(ireg[0x18], ireg[0x27c]);
+    entryoperation(ireg[0x10], ireg[0x27c]);
+    entryoperation(ireg[0x1c], ireg[0x27c]);
+    entryoperation(ireg[0x20], ireg[0x27c]);
+    sendevent(0xc00, self->children, 0, self->self);
+  }
+}
+
+void func_2f0()
+{
+  statusc |= ireg[0x188];
+  field[0x188] = stampanim;
+  statusb &= ireg[0x18c];
+  if ((self->scale.x < 0))
+    field[0x18c] = ireg[0x190]

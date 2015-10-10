@@ -1,0 +1,140 @@
+void func_0()
+{
+  var var_0 = 0;
+  var var_1 = 0x1999;
+  var var_2 = 0xa;
+  spawn(1, 29, 1, 3, var_2, var_1, var_0);
+  statusb = 0x32814;
+  if (self->modeflagsa)
+  {
+    pathprogress = (((modeflagsa - 0x8000) * pathcount) << 0xfffffff1);
+    hotspotclip = 0x1400;
+  }
+  approachyz = 0x400;
+  zindex = 0xe;
+  state 1;
+}
+
+void func_38()
+{
+  do
+  {
+    animsequence(0, 0, 1, 3);
+    animsequence(1, 0, 1, 3);
+    animsequence(2, 0, 1, 3);
+    animsequence(3, 0, 1, 3);
+    animsequence(4, 0, 1, 3);
+    animsequence(5, 0, 1, 3);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0x47a, 0x4d3024c9);
+    animsequence(6, 0, 1, 3);
+    animsequence(7, 0, 1, 3);
+    animsequence(8, 0, 1, 3);
+    animsequence(9, 0, 1, 3);
+    animsequence(10, 0, 1, 3);
+    animsequence(11, 0, 1, 3);
+    animsequence(12, 0, 1, 3);
+    animsequence(13, 0, 1, 3);
+    animsequence(14, 0, 1, 3);
+    animsequence(15, 0, 1, 3);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0x47a, 0x4d3044c9);
+    animsequence(16, 0, 1, 3);
+    animsequence(17, 0, 1, 3);
+    animsequence(18, 0, 1, 3);
+  }
+}
+
+void func_ac()
+{
+  var var_3 = speed(0x400, 0);
+  var var_4 = var_3;
+  vectormisca(sinewave(((pathcount + (speed(0x400, 0) + -0x100)) - speed(0x400, 0)), trianglewave(&pathprogress, var_4, (pathcount + (speed(0x400, 0) + -0x100)))), self->trans.x);
+  if ((statusa tst 0x1000))
+  {
+    var var_5 = 0x6400;
+    sendevent(0x300, self->collider, 1, (player->statusa tst 0x1), var_5);
+  }
+}
+
+void func_f8(arg1)
+{
+  misc(id, 5);
+  var var_6 = arg1;
+  sendevent(0x1000, self->player, 1, self->self, var_6);
+  statusb &= 0xffff7f8e;
+  statusb |= 0x2000;
+  targetrot.z = 0x800;
+  approachyz = 0x2000;
+  do
+  {
+    animsequence(0, 2, 1, 3);
+  } while (!(scale.x > 0xa3));
+}
+
+void func_130()
+{
+  unk_F8 = 0x1000;
+  pctrans = pc;
+  var var_7 = 0x1333;
+  var var_8 = 0x199;
+  scale.x = trianglewave(&unk_F8, var_8, var_7);
+  scale.y = scale.x;
+  scale.z = scale.x;
+  rot.x += 0x2aa;
+  rot.z = rot.x;
+}
+
+void func_15c(arg1)
+{
+  misc(id, 5);
+  animcounter = (arg1 + 0x100);
+  var var_9 = arg1;
+  sendevent(0x1000, self->player, 1, self->self, var_9);
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound((0xae1 + random(0x333, 0)), 0x1eaa4049);
+  targetrot.x = (((((misc(player->trans.x, self->self) + (0x800 + -readglobal(0xf00))) + 0x100) & -0x200) & 0xfff) + readglobal(0xf00));
+  velocity.y = 0;
+  speed = 0xfa000;
+  statusb = 0.2500;
+  statusb |= 0x2000;
+  targetrot.z = 0x800;
+  approachyz = 0x2000;
+  do
+  {
+    animsequence(0, 2, 1, 3);
+  } while (!((abs(scale.x) > 0) && ((scale.y > 0) && (scale.z > 0))));
+}
+
+void func_1f8()
+{
+  if (!(statusa tst 0.1250))
+  {
+    misc(self->self, 0x1d00, self->rot.z);
+    sender = (0x4cd945cd + 0x4cd945cd);
+    if (self->sender)
+    {
+      var var_10 = animcounter;
+      sendevent(0x1d00, self->sender, 1, (misc(self->sender, 0) < 0x32000), var_10);
+    }
+    else
+      misc = 0;
+    if (self->misc)
+      animcounter += 0x100;
+    modeflagsb = (trans.y - 0x19000);
+    do
+    {
+      trans.y = (modeflagsb + 0x19000);
+    } while ((!misc || (trans.y >= (modeflagsb + 0x19000))));
+    scale.x -= 0x88;
+    scale.y -= 0x88;
+    scale.z -= 0x88;
+    speed += 0x4b000;
+    if ((speed < 0x3e8000))
+      speed += 0x4b000;
+    else
+    vectormisca(0x3e8000, self->velocity.x);
+  }
+}
+
+

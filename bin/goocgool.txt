@@ -1,0 +1,33 @@
+GOOC -> GOOL
+---------------
+
+a = b ->  (let ((a b) (c d) (e f)) (g h i j ...))
+c = d
+e = f
+g
+h
+i
+j
+...
+
+
+&& -> and
+
+
+if (expr)        (when (expr) (a b c ...))
+{
+  a
+  b        ---> 
+  c
+  ...
+}
+
+
+sendevent(event,recipient,argc,cond,args...)
+->
+(send event #event# (recipient))
+
+
+:trans	(defgcode (:label turn 180) 
+        ; set the y rotation 10 degrees closer to 180 degrees 
+                (setf roty (degseek roty (deg 180) (deg 10)))) 

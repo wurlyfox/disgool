@@ -1,0 +1,2840 @@
+void func_0(arg1)
+{
+  writeglobal(fp[-0x304], 0x1100);
+  if ((arg1 == 0x200))
+  {
+    writeglobal(0xc, 0x1200);
+    var var_0 = arg1;
+  }
+  if ((fp[0xc] == 0x200))
+  {
+    writeglobal(0, 0x1800);
+    writeglobal(0, 0x1a00);
+    writeglobal(0, 0x1900);
+    writeglobal(0, 0x1b00);
+    do
+    writeglobal(0, 0x1d00);
+  }
+  else if (((fp[0xc] == 0x300) || ((fp[0xc] == 0x400) || ((fp[0xc] == 0x100) || (fp[0xc] == 0x500)))))
+  {
+    writeglobal(field[0x164], 0x1800);
+    writeglobal(field[0x160], 0x1a00);
+    do
+    if (((fp[0x10] == 0xa00) || ((fp[0x10] == 0x800) || ((fp[0x10] == 0x1700) || ((fp[0x10] == 0x1b00) || ((fp[0x10] == 0x1f00) || (fp[0x10] == 0x2100)))))))
+      writeglobal(0, 0x1900);
+    do
+    {
+      var var_2 = 0x400;
+      sendevent(0xf00, self->creator, 1, self->self, var_2);
+      writeglobal(unk_F8, 0x1900);
+    } while ((readglobal(0x6a00) == 0xffffffff));
+    writeglobal(field[0x178], 0x1b00);
+    writeglobal(field[0x180], 0x1c00);
+    writeglobal(field[0x17c], 0x1d00);
+  }
+}
+
+void func_c4()
+{
+  field[0x1a8] = 0x700;
+  field[0x160] = readglobal(0x1a00);
+  animcounter = 0x6400;
+  field[0x164] = readglobal(0x1800);
+  field[0x178] = readglobal(0x1b00);
+  field[0x17c] = readglobal(0x1c00);
+  field[0x180] = readglobal(0x1d00);
+  field[0x194] = 0;
+  field[0x168] = 0;
+  field[0x16c] = 0x4b;
+  field[0x198] = 0x12c;
+  field[0x188] = 0;
+  field[0x19c] = 0;
+  field[0x1a0] = 0;
+  field[0x1a4] = 0;
+  field[0x188] = 0;
+  func_1b8();
+    
+  // get level
+  var level = readglobal(0);
+  // papu papu, pinstripe, nitrus brio, ripper roo, koala kong, dr neo cortex
+  if (level == 0xa00, 0x800, 0x1b00, 0x1700, 0x2100, 0x1f00) // boss level
+    writeglobal(0x200, 0x1900);
+  // hog wild, whole hog
+  else if (level == 0x1100, 0x1e00)
+    writeglobal(0, 0x1900);
+    
+  // spawn an aku aku of type 0 with global 0x19 as argument
+  var var_4 = readglobal(0x1900);
+  spawn(1, 5, 0, 1, var_4);
+  
+  // spawn a shadow
+  var var_5 = 0;
+  var var_6 = 0x1000;
+  var var_7 = 0;
+  spawn(1, 29, 0, 3, var_7, var_6, var_5);
+  
+  // clear bit 16?
+  statusc &= 0xffff7fff;
+  
+  // get level again
+  var level = readglobal(0);
+  if (level == 0x900) // if n. sanity beach
+    state 34; // beach spawn
+  else
+    state 40; // normal spawn
+}
+
+// initialization routine
+void func_1b8()
+{
+  // initial display flags
+  writeglobal(0xffff, 0x400);
+  
+  // initial status b
+  statusb = 0x40420e9;
+  
+  // no colliding objects initially
+  collider = 0;
+  
+  // no velocity initially
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = 0;
+  
+  // no initial y,z orientation; 
+  // only x since some levels start forward/back and some left/right
+  rot.y = 0;
+  rot.z = 0;
+  
+  // dunno yet
+  field[0x190] = 0x155; 
+  
+  // initially approach initial x orientation?
+  targetrot.x = rot.x;
+  targetrot.y = 0x2000;
+  
+  // seems arbitrary
+  approachyz = 0x355;
+  
+  // no camera zoom initially
+  camzoom = 0;
+  
+  // dunno yet
+  unk_150 = 0x400;
+  
+  // normal scale initially
+  scale.x = 0x1000;
+  scale.y = 0x1000;
+  scale.z = 0x1000;
+  
+  // dunno yet
+  if (displaymode == 0x6)
+  {
+    self->displaymode = 0;
+    self->unk_12C = stampanim;
+  }
+}
+
+void func_210()
+{
+  func_1b8();
+  field[0x1a0] = 0;
+  if (!displaymode)
+  {
+    self->displaymode = 0x4;
+    self->unk_12C = stampanim;
+  }
+}
+
+void func_22c()
+{
+  var var_9 = targetrot.x;
+  var var_10 = velocity.y;
+  func_1b8();
+  do
+  targetrot.x = fp[0xc];
+  rot.x = targetrot.x;
+}
+
+void func_248()
+{
+  var var_11 = field[0x1a8];
+  if ((fp[0xc] == 0x700))
+  
+  // load the grabbing/throwing wumpa fruit anims
+  else if ((fp[0xc] == 0x1000))
+  {
+    entryoperation(0x7496c273, 0x2);  // WiS4V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+    entryoperation(0x7496c2f3, 0x2);  // WiS5V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+  }
+  // load the grabbing/throwing wumpa fruit anims
+  // also event sent, perhaps the change color event?
+  else if ((fp[0xc] == 0x1100))
+  {
+    entryoperation(0x7496c273, 0x2);  // WiS4V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+    entryoperation(0x7496c2f3, 0x2);  // WiS5V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+    sendevent(0xc00, self->children, 0, self->self);
+  }
+  // load the throwing wumpa fruit anim
+  // also look up wait for wumpa anim
+  // also event sent
+  else if ((fp[0xc] == 0x1200))
+  {
+    entryoperation(0x7496c2f3, 0x2);  // WiS5V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+    entryoperation(0x7496c373, 0x2);  // WiS6V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+    sendevent(0xc00, self->children, 0, self->self);
+  }
+  // WiS6V = look up, wait for wumpa?
+  // WiFrV = scratch head, covered in wumpa juice
+  // also event sent
+  else if ((fp[0xc] == 0x1300))
+  {
+    entryoperation(0x7496c373, 0x2);  // WiS6V
+    entryoperation(0x7492aad5, 0x2);  // WillG
+    entryoperation(0x74952df3, 0x2);  // WiFrV
+    entryoperation(0x74952dd5, 0x2);  // WillG
+    sendevent(0xc00, self->children, 0, self->self);
+  }
+}
+
+void func_2f0()
+{
+  statusc |= 0x1002;
+  field[0x188] = stampanim;
+  do
+  if ((self->scale.x < 0))
+    field[0x18c] = 0x1c7;
+  else
+    field[0x18c] = 0xfffffe39;
+  audiob(0x400, self->self, 1);
+  audiob(0.6250, self->self, 12);
+  do
+  var var_12 = 0;
+  animpointer(0x3800);
+  do
+  {
+    rot.x += field[0x18c];
+    animframe(trianglewave(&fp[0xc], 256, 0x700), 1, 3);
+  } while (((stampanim - field[0x188]) >= 0xc));
+  rot.x = readglobal(0xf00);
+  targetrot.x = rot.x;
+  statusc &= 0xffffeffd;
+}
+
+// 0 - idle state - code block 
+void func_364()
+{
+  // 
+  field[0x19c] = 0;
+  field[0x1a0] = 0;
+  field[0x1a4] = 0;
+  field[0x188] = 0;
+  
+  // frame for stand (eyes open); thats why we show it for 30 frames
+  animsequence(11, 74, 30, 3);
+  
+  // idle anim loop
+  do
+  {
+    // one stand frame
+    animsequence(11, 74, 1, 3);
+    
+    // blink; 1/4 chance of occurrence
+    if (!random(0x4, 0))
+    {
+      animsequence(12, 74, 3, 3); // stand (eyes closed) wait 3
+      animsequence(11, 74, 3, 3); // stand (eyes open)   wait 3
+      animsequence(12, 74, 3, 3); // stand (eyes closed) wait 3
+      animsequence(11, 74, 6, 3); // stand (eyes open)   wait 6
+    }
+    
+    // continue standing with eyes open; 1/4 chance of occurrence
+    if (!random(0x4, 0))
+    {
+      animsequence(11, 74, 30, 3);
+    }
+    
+    // possibly that aku-aku ping event
+    var var_13 = 0x400;
+    sendevent(0xf00, self->creator, 1, self->self, var_13);
+    
+    // hmm..
+    if ((unk_F8 < 0x300))
+    {
+      // flip orientation of turn head anim
+      self->scale.x = -self->scale.x;
+      
+      // turn our head
+      animsequence(0, 74, 1, 3);
+      animsequence(1, 74, 1, 3);
+      animsequence(2, 74, 1, 3);
+      animsequence(3, 74, 1, 3);
+      animsequence(4, 74, 1, 3);
+      do
+      {
+        // wait [30] when head has been turned completely
+        animsequence(5, 74, 30, 3);
+        
+        // now start turning it back
+        animsequence(6, 74, 1, 3);
+        animsequence(7, 74, 1, 3);
+        animsequence(8, 74, 1, 3);
+        
+        // double take; 1/8th chance of occurrence
+        if (!random(0x8, 0))
+        {
+          animsequence(7, 74, 1, 3); // start turning back again
+          animsequence(6, 74, 1, 3);
+          
+          continue; // continue to hold it there as double taking
+        }
+        else
+          break;
+      }
+       
+      // complete head turn back to normal standing frame
+      animsequence(9, 74, 1, 3);
+      animsequence(10, 74, 1, 3);
+      
+      // 
+      var var_14 = field[0x1a8];
+      if (fp[0xc] == 0x700) // normal idle
+      {
+        // get level
+        var level = readglobal(0);
+        if (level == 0xa00, 0x800, 0x1b00, 0x1700, 0x2100, 0x1f00) {} // boss level
+        else if ((statusa tst 0x40000)) // not a boss level and on the ground
+        {
+          // prepare for idle wumpa fruit throwing sequence; 1/50 chance of occurence
+          if (!random(0x32, 0))
+          {
+            freepages = countFreePages({2001I, WillG, WiS4V, WillG}, 4);
+            availablepages = countAvailablePages();
+            conda = (freepages <= availablepages);
+            freepages = countFreePages({Wil9C, WillG, 2001I, WillG}, 4);
+            availablepages = countAvailablePages();
+            condb = (freepages <= availablepages);
+            freePages = countFreePages({WiS4V, WiFrG, Wil9C, WillG}, 4);
+            availablepages = countAvailablePages();
+            condc = (freepages <= availablepages);
+            
+            // when theres enough pages free
+            if (conda && condb && condc)
+            {
+              field[0xF0] = &func_0x248;
+              loadEntry(WiS4V, 0x1);
+              loadEntry(WillG, 0x1);
+              loadEntry(WiS5V, 0x1);
+              loadEntry(WillG, 0x1);
+              field[0x1a8] = 0x1000;
+            }
+          }
+        }
+      }
+      // else the wumpa fruit sequence anims are loaded
+      else if (fp[0xc] == 0x1000)
+      {
+        // wumpa fruit anim
+        animpointer(0x4c00);
+        animframe = -0x100;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x800));
+        animsequence(9, 76, 6, 3);
+        animframe = 0x900;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x1400));
+        
+        // spawn the fruit that crash throws
+        var var_28 = 0x100;
+        spawn(1, 3, 21, 2, ireg[0x214], var_28);
+        
+        // second stage
+        field[0x1a8] = 0x1100;
+        animframe = 0x1400;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x1800));
+        
+        
+        removeEntry(WiS4V, 1);
+        removeEntry(WillG, 1);
+        loadEntry(WiS6V, 0, 1);
+        loadEntry(WiS7V, 0, 1);
+        field[0x1a8] = 0x1200;
+        
+        
+        animpointer(0x4e00);
+        animframe = -0x100;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x300));
+        animsequence(4, 78, 30, 3);
+        audiob((0x399 + random(0xcc, 0)), self->self, 1);
+        audiob(0.2500, self->self, 12);
+        audiob(0x9, self->self, 7);
+        playsound(0x666, 0x26b32049);
+        animframe = 0x400;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x1700));
+        animsequence(24, 78, 45, 3);
+        entryoperation(0x7496c2f3, 0x2);
+        entryoperation(0x7492aad5, 0x2);
+        entryoperation(0x74952df3, 0x1);
+        entryoperation(0x74952dd5, 0x1);
+        field[0x1a8] = 0x1300;
+        animpointer(0x5000);
+        animframe = -0x100;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x800));
+        animsequence(9, 80, 30, 3);
+        animframe = 0x900;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0xd00));
+        
+        // scratch head 5 times
+        do
+        {
+          animsequence(14, 80, 1, 3);
+          animsequence(15, 80, 1, 3);
+          animsequence(16, 80, 1, 3);
+          animsequence(17, 80, 1, 3);
+          animsequence(18, 80, 1, 3);
+          animsequence(19, 80, 1, 3);
+          animsequence(18, 80, 1, 3);
+          animsequence(17, 80, 1, 3);
+          animsequence(16, 80, 1, 3);
+          animsequence(15, 80, 1, 3);
+          fp[0x10] += 0x100;
+        } while (!(fp[0x10] < 0x600));
+        audiob((0x5eb + random(0x11e, 0)), self->self, 1);
+        playsound(0x7ad, 0x7ee32049);
+        animframe = 0xd00;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x1200));
+        animsequence(0, 58, 15, 3);
+        animframe = 0;
+        do
+        {
+          animframe((animframe + 0x100), 1, 3);
+        } while (!((animframe + 0x100) <= 0x800));
+        animsequence(9, 58, 9, 3);
+        animsequence(10, 58, 2, 3);
+        animsequence(9, 58, 2, 3);
+        animsequence(10, 58, 2, 3);
+        animsequence(9, 58, 9, 3);
+        func_2f0();
+        func_248();
+      }
+    }
+  }
+}
+
+void func_690(arg1, arg2)
+{
+  if (((collider == sender) && ((arg2 == 0x300) || (arg2 == 0xe00))))
+    return true null;
+  return false state 30;
+}
+
+void func_6cc()
+{
+  if (readglobal(0x1100) == 0)
+  {
+    if (padread(0x040, 3, 0, 8, 0)) // if >< pressed
+      state 4;                      // change state to jump
+    if (padread(0x0A0, 3, 0, 8, 0)) // if () or [] pressed
+    {
+      if (((stampanim - field[0x194]) >= 0x3c)) // if a while since the last spin
+        state 15;                   // change state to [start to] spin
+      else                          // else play 'attempt spin but out of energy' sample
+      {
+        audiob((0x399 + random(0xcc, 0)), self->self, 1);
+        audiob(0.5625, self->self, 12);
+        playsound(0x666, 0x7ee32049);
+      }
+    }
+    // change state to moving when we're fast enough
+    if (!(abs(speed) >> 2))
+      state 2;
+  }
+  // if stopped by solid ground a while since the last landing, 
+  // and floor higher than bottom of player?
+  if (((statusa tst 0x1) && (((stampanim - stampland) >= 0x6) && (field[0x184] < (trans.y - 0x19000)))))
+  {
+    // record landing time
+    stampland = stampanim;
+    
+    // if falling velocity
+    if (velocity.y <= 0)
+      state 11; // change state to falling
+    else
+      state 5;  // ?
+  }
+  
+  // debug features; this flag only enabled in prototype but this code still exists in final
+  if (readglobal(0x4400))
+  {
+    // if L1 and R1 held, then stick to ground
+    if (padread(0x004, 2, 0, 8, 0) && padread(0x008, 2, 0, 8, 0))
+    {
+      self->displaymode = 0x2;
+      self->unk_12C = stampanim; 
+    }
+    
+    // if L1 and R2 held, then send event for 'collect triple aku aku'
+    if (padread(0x004, 2, 0, 8, 0) && padread(0x002, 1, 0, 8, 0))
+      sendevent(0x600, self->creator, 1, self);
+      
+    // if L1 and L2 held, then set gems collected? flashing crash also?
+    if ((padread(0x004, 2, 0, 8, 0) && padread(0x001, 1, 0, 8, 0)))
+    {
+      MSC     static[0x170], 5, 0x3, 12                  //flashing crash
+      writeglobal(0xffffffff, 0x4800);
+      writeglobal(0xffffffff, 0x3f00);
+    }
+  }
+}
+
+void func_7b4()
+{
+  do
+  {
+    field[0x19c] = 0;
+    field[0x1a0] = 0;
+    field[0x1a4] = 0;
+    field[0x188] = 0;
+    unk_150 = 0;
+    animsequence(0, 82, 1, 0);
+    unk_150 = 0x100;
+    animsequence(1, 82, 1, 0);
+    unk_150 = 0x200;
+    animsequence(2, 82, 1, 0);
+    unk_150 = 0x300;
+    animsequence(3, 82, 1, 0);
+    unk_150 = 0x400;
+    animsequence(4, 82, 1, 0);
+    unk_150 = 0x500;
+    animsequence(5, 82, 1, 0);
+    unk_150 = 0x600;
+    animsequence(6, 82, 1, 0);
+    unk_150 = 0x700;
+    animsequence(7, 82, 1, 0);
+    unk_150 = 0x800;
+    do
+    unk_150 = 0x900;
+    animsequence(9, 82, 1, 0);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0.3125, self->self, 12);
+    playsound(0x666, 0x1ee02049);
+    unk_150 = 0;
+    animsequence(0, 82, 1, 1);
+    unk_150 = 0x100;
+    animsequence(1, 82, 1, 1);
+    unk_150 = 0x200;
+    animsequence(2, 82, 1, 1);
+    unk_150 = 0x300;
+    animsequence(3, 82, 1, 1);
+    unk_150 = 0x400;
+    animsequence(4, 82, 1, 1);
+    unk_150 = 0x500;
+    animsequence(5, 82, 1, 1);
+    unk_150 = 0x600;
+    animsequence(6, 82, 1, 1);
+    unk_150 = 0x700;
+    animsequence(7, 82, 1, 1);
+    unk_150 = 0x800;
+    animsequence(8, 82, 1, 1);
+    unk_150 = 0x900;
+    do
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0.3125, self->self, 12);
+    playsound(0x666, 0x1ee00049);
+  }
+}
+
+void func_894()
+{
+  codepointer(604, self->pchead);
+  func_7b4();
+}
+
+void func_8a0()
+{
+  do
+  {
+    return true null;
+  } while (!((animframe + 0x100) <= 0x900));
+  return true null;
+}
+
+void func_8ec()
+{
+  if (padread(0x040, 3, 0, 8, 0)) // if >< pressed
+    state 3;                      // change state to jumping and moving
+  if (padread(0x0A0, 3, 0, 8, 0)) // if () or [] pressed
+  {
+    if (((stampanim - field[0x194]) >= 0x3c)) // if a while since the last spin
+      state 15;                   // change state to [start to] spin
+    else                          // else play 'attempt spin but out of energy' sample
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.5625, self->self, 12);
+      playsound(0x666, 0x7ee32049);
+    }
+  }
+  // change state to idle when speed is approximately 0
+  if ((abs(speed) >> 2) == 0)
+    state 2;
+  // if stopped by solid ground a while since the last landing, 
+  // and floor higher than bottom of player?
+  if (((statusa tst 0x1) && (((stampanim - stampland) >= 0x6) && (field[0x184] < (trans.y - 0x19000)))))
+  {
+    // record landing time
+    stampland = stampanim;
+    
+    // if falling velocity
+    if (velocity.y <= 0)
+      state 11; // change state to falling
+    else
+      state 5;  // ?
+  }
+}
+
+void func_970()
+{
+  field[0x150] = 0x400;
+}
+
+
+// 3 - jumping and moving state - code block
+void func_978()
+{
+  // play jump sound
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x666, jmp0A);
+  
+  // hmm.. we flip in the x during a moving jump?
+  self->scale.x = -self->scale.x;
+  
+  // jump velocity is this
+  velocity.y = 4200 m/s;
+  
+  // forces field[0x150] to 0x400 if state change occurs
+  pchead = &func_970;
+  
+  // flip anim?
+  unk_150 = 0;
+  animsequence(0, 84, 1, 3);
+  unk_150 = -0x5b00;
+  animsequence(1, 84, 1, 3);
+  unk_150 = -0x5b00;
+  animsequence(2, 84, 1, 3);
+  unk_150 = -0x5b00;
+  animsequence(3, 84, 1, 3);
+  
+  // clear bit 1 ? i.e. flipping jump completed?
+  statusc &= 0xfffffffe;
+  
+  // sleep with the first falling frame?
+  do 
+  {
+    unk_150 = -0x5b00;
+    animsequence(0, 86, 63, 3);
+  }
+}
+
+// 3 - jumping and moving state - trans block
+void func_9d4()
+{
+  // if floor has been hit
+  if (statusa tst 0x1)
+    state 13; // change state to landing on the ground
+  
+  // if () or [] pressed
+  if (padread(0x0A0, 3, 0, 8, 0)) 
+  {
+    // if a while since the last spin
+    if (((stampanim - field[0x194]) >= 0x3c))
+      state 16; // change state to [start to] spin *in the air*
+    else        // else play the 'attempt to spin but out of energy' sound
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.5625, self->self, 12);
+      playsound(0x666, 0x7ee32049);
+    }
+  }
+  
+  // while >< is held
+  if (padread(0x40, 2, 0, 8, 0))
+    velocity.y = speed(5454 m/s/s, velocity.y); // accelerate jump velocity at this rate
+    
+  // when enough jump velocity has been lost..
+  if (velocity.y < 2000 m/s)
+    state 10; // change state to 'starting to fall out of a moving jump'
+}
+
+// state 4 - jumping in place - code block
+void func_a28()
+{
+  // play jump sound
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x666, jmp0A);
+  
+  // set jump velocity to this
+  velocity.y = 4200 m/s;
+  
+  // forces field[0x150] to 0x400 if state change occurs
+  pchead = &func_970;
+  
+  // single jump anim
+  unk_150 = -0x5b00;
+  animsequence(0, 86, 1, 3);
+  
+  // clear bits 1 and 2 (in place jump completed?)
+  statusc &= 0xfffffffc;
+  
+  // sleep on the jump anim
+  do
+  {
+    unk_150 = -0x5b00;
+    animsequence(0, 86, 63, 3);
+  }
+}
+
+// state 4 - jumping in place - trans block
+// state 5 - ?                - trans block
+// state 6 - bouncing on arrow box or enemy - trans block
+void func_a64()
+{
+  // only once
+  unk_F8 = 0;
+  pctrans = pc;
+  
+  // if () or [] pressed
+  if (padread(0x0A0, 3, 0, 8, 0)) 
+  {
+    // if a while since the last spin
+    if (((stampanim - field[0x194]) >= 0x3c))
+      state 16; // change state to [start to] spin *in the air*
+    else        // else play the 'attempt to spin but out of energy' sound
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.5625, self->self, 12);
+      playsound(0x666, 0x7ee32049);
+    }
+  }
+  
+  // if floor has been hit
+  if (statusa tst 0x1)
+    state 13; // change state to landing on the ground
+    
+  // while >< is held
+  if (padread(0x40, 2, 0, 8, 0))
+    velocity.y = speed(5454 m/s/s, velocity.y); // accelerate jump velocity at this rate
+    
+  // if directions are held
+  if (!padread(0x000, 0, 2, 8, 0))
+    unk_F8 = 0x100;
+  if (unk_F8) // if directions held
+  {   
+    // when enough jump velocity has been lost
+    if (velocity.y < 2000 m/s)
+      state 10; // change state to 'starting to fall out of a moving jump'
+  } 
+  // else no directions held; when enough velocity has been lost
+  else if (velocity.y < 2000 m/s)
+    state 11; // change state to 'falling from jumping in place'
+}
+
+void func_ae0()
+{
+  codepointer(604, self->pchead);
+  do
+  {
+    unk_150 = -0x5b00;
+    animsequence(0, 86, 63, 3);
+  }
+}
+
+// 6 - bouncing on an arrow box or enemy - code block
+void func_af4(arg1)
+{
+  // increment bounce counter?
+  field[0x1a0] += 0x100;
+  
+  // bounce at this velocity
+  velocity.y = arg1;
+  
+  // play bounce sound
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x666, 0x26b32049);
+  
+  // --from here on just like an in-place jump--
+  // forces field[0x150] to 0x400 if state change occurs
+  pchead = &func_970;
+  
+  // single jump anim
+  unk_150 = -0x5b00;
+  animsequence(0, 86, 1, 3);
+  
+  // clear bits 1 and 2 (in place jump completed?)
+  statusc &= 0xfffffffc;
+  
+  // sleep on the jump anim
+  do
+  {
+    unk_150 = -0x5b00;
+    animsequence(0, 86, 63, 3);
+  }
+}
+
+void func_b38()
+{
+  return true null;
+}
+
+// 7 - ? - code block
+void func_b4c(arg1, arg2)
+{
+  codepointer(110, self->pchead);
+  speed = arg1;
+  targetrot.x = arg2;
+  statusb &= 0xffffff7f;
+  vectormisca(speed, self->velocity.x);
+  func_7b4();
+}
+
+void func_b6c()
+{
+  return false state 1;
+}
+
+// 8 - ? - code block
+void func_b78()
+{
+  codepointer(110, self->pchead);
+  speed = 0;
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = 0;
+  statusb &= 0xffffff7f;
+  func_364();
+}
+
+void func_b9c()
+{
+  return false state 1;
+}
+
+// 9 - lose aku aku state - code block
+void func_ba8()
+{
+  // play yip sound
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0x3fff, yip0A);
+  
+  // play aku aku loss sound
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x666, 0x26b32049);
+  
+  // if not hit from the bottom
+  if (!(statusa tst 0x80))
+  {
+    velocity.y = 5059.65 m/s;
+  }
+  
+  // --from here on just like a moving jump--
+  // forces field[0x150] to 0x400 if state change occurs
+  pchead = &func_970;
+  
+  // single jump anim
+  unk_150 = -0x5b00;
+  animsequence(0, 86, 1, 3);
+  
+  // clear bits 2 (moving jump completed?)
+  statusc &= 0xfffffffe;
+  
+  // sleep on the jump anim
+  do
+  {
+    unk_150 = -0x5b00;
+    animsequence(0, 86, 63, 3);
+  }
+}
+
+void func_c04()
+{
+  if ((displaymode == 0x5))
+  {
+    return true null;
+    return true null;
+    return true null;
+    return true null;
+    return true null;
+    return true null;
+  }
+}
+
+// 10 - falling after moving jump/front-flip - code block
+void func_c40(arg1, arg2)
+{
+  // forces field[0x150] to 0x400 if state change occurs
+  pchead = &func_970;  
+  
+  // incrementally do falling animation and update falling distance
+  unk_150 = -0x5b00;
+  animsequence(0, 86, 1, 3);
+  unk_150 = -0x5b00;
+  animsequence(1, 86, 1, 3);
+  unk_150 = 0xe300;
+  animsequence(2, 86, 1, 3);
+  unk_150 = 0x1c700;
+  animsequence(3, 86, 1, 3);
+  unk_150 = 0x2e300;
+  animsequence(4, 86, 1, 3);
+  unk_150 = 0x40000;
+  animsequence(5, 86, 1, 3);
+  unk_150 = 0x4fa00;
+  animsequence(6, 86, 1, 3);
+  unk_150 = 0x62200;
+  animsequence(7, 86, 1, 3);
+  unk_150 = 0x80b00;
+  animsequence(8, 86, 1, 3);
+  unk_150 = 0xa0000;
+  animsequence(9, 86, 1, 3);
+  unk_150 = 0xc1600;
+  animsequence(10, 86, 1, 3);
+  unk_150 = 0xd6000;
+  animsequence(11, 86, 1, 3);
+  unk_150 = 0xe8800;
+  animsequence(12, 86, 1, 3);
+  unk_150 = 0xf1c00;
+  animsequence(13, 86, 1, 3);
+  unk_150 = 0xf8e00;
+  animsequence(14, 86, 1, 3);
+  unk_150 = 0xfc700;
+  animsequence(15, 86, 1, 3);
+  unk_150 = 0;
+  animsequence(16, 86, 1, 3);
+  
+  // dunno yet
+  pchead = &func_e18;
+
+  // 
+  freepages = countFreePages({WillC, WiC0V}, 2);
+  availablepages = countAvailablePages();
+  conda = freepages <= availablepages;
+  
+  if (conda && (readglobal(0x6900) == 0))
+  {
+    loadEntry(WillG, 0);
+    loadEntry(WiC0V, 0);
+    field[0x1a8] = 0x900;
+    do
+    {
+      unk_150 = 0xfc700;
+      animsequence(16, 86, 1, 3);
+      removeda = removeEntry(WillG, 0);
+      removedb = removeEntry(WiC0V, 0);
+    } while (!removeda && !removedb);
+    animsequence(15, 86, 1, 3);
+    do
+    {
+      animpointer(0x5c00);
+      animframe = -0x100;
+      do
+      {
+        animframe((animframe + 0x100), 1, 3);
+      } while (!((animframe + 0x100) <= 0x400));
+      animsequence(15, 86, 1, 3);
+    }
+  }
+  else
+  {
+    do
+    {
+      unk_150 = 0xfc700;
+      animframe(0x1000, 63, 3);
+    }
+  }
+}
+
+void func_d50(arg1, arg2)
+{
+  if (self->sender)
+    return true null;
+  if ((arg2 == 0x1300))
+    return true null;
+}
+
+// 10 - falling after moving jump/front-flip - trans block
+// 11 - falling in place                     - trans block
+void func_d9c()
+{
+  // if falling and a collider exists
+  if ((collider && (velocity.y <= 0)))
+  {
+    if (trans.y > (collider->trans.y - 0x5000)) // if at least 80m higher
+    {
+      // send event hit on the head; include number of bounces as arg
+      var bounces = field[0x1a0];
+      sendevent(0, self->collider, 1, self->self, bounces);
+      
+      // if the obj responded (hittable on head and would cause bounce)
+      if (self->misc)
+      {
+        field[0x1a0] += 0x100; // add to bounce counter
+        state 14;              // change state to landing on box/enemy
+      }
+    }
+  }
+  
+  // if hit the ground
+  if (statusa tst 0x1)
+    state 13; // change state to landing on the ground
+    
+  // if () or [] pressed
+  if (padread(0x0A0, 3, 0, 8, 0)) 
+  {
+    // if a while since the last spin
+    if (((stampanim - field[0x194]) >= 0x3c))
+      state 16; // change state to [start to] spin *in the air*
+    else        // else play the 'attempt to spin but out of energy' sound
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.5625, self->self, 12);
+      playsound(0x666, 0x7ee32049);
+    }
+  }
+  
+  // while >< is held
+  if (padread(0x40, 2, 0, 8, 0))
+    velocity.y = speed(5454 m/s/s, velocity.y); // accelerate jump velocity at this rate
+  
+}
+
+void func_e18()
+{
+  if ((field[0x1a8] == 0x900))
+  {
+    entryoperation(0x7494c073, 0x2);
+    entryoperation(0x7492aad5, 0x2);
+    field[0x1a8] = 0x700;
+    func_970();
+  }
+}
+
+// 11 - falling in place - trans block
+void func_e34(arg1, arg2)
+{
+  animpointer(0x5a00);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0x500));
+  codepointer(902, self->pchead);
+  var *var_34 = &0x7492aad5;
+  var *var_35 = &0x7494c073;
+  entryoperation(0x2, 0x5);
+  entryoperation(0,, 0x4);
+  if ((var_34 <= var_35))
+  {
+    field[0x1a8] = 0x900;
+    entryoperation(0x7494c073, 0x1);
+    entryoperation(0x7492aad5, 0x1);
+    do
+    {
+      unk_150 = 0xfc700;
+      animsequence(15, 86, 1, 3);
+      entryoperation(0x7492aad5, 0x3);
+      entryoperation(0x7494c073, 0x3);
+    } while ((((velocity.y < 0) && (((arg2 == 0x300) || (arg2 == 0xe00)) && !(sender->statusc tst 0x2))) && ((readglobal(0) == 0x1100) || (readglobal(0) == 0x1e00))));
+    do
+    {
+      animpointer(0x5c00);
+      animframe = -0x100;
+      do
+      {
+        animframe((animframe + 0x100), 1, 3);
+      } while (!((animframe + 0x100) <= 0x400));
+      animsequence(15, 86, 1, 3);
+    }
+  }
+  else
+  {
+    do
+    {
+      unk_150 = 0xfc700;
+      animsequence(15, 86, 63, 3);
+    }
+  }
+}
+
+void func_ec4()
+{
+  codepointer(110, self->pchead);
+  statusb &= 0xffffff7f;
+  animpointer(0x5a00);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0x500));
+  do
+  {
+    unk_150 = 0xfc700;
+    animsequence(15, 86, 63, 3);
+  }
+}
+
+void func_efc()
+{
+  if (!(!(statusa tst 0.1250) && (statusa tst 0x1)))
+    state 13;
+}
+
+void func_f14()
+{
+  codepointer(604, self->pchead);
+  unk_150 = 0x3800;
+  animsequence(0, 88, 2, 3);
+  unk_150 = 0x2d00;
+  animsequence(1, 88, 2, 3);
+  unk_150 = 0x3e900;
+  animsequence(2, 88, 2, 3);
+  unk_150 = 0x36c00;
+  animsequence(3, 88, 2, 3);
+  unk_150 = 0x18e00;
+  animsequence(4, 88, 2, 3);
+  state 1;
+}
+
+void func_f48()
+{
+  // if falling and a collider exists and is hit below
+  if ((collider && ((velocity.y < 0) && (statusa tst 0x4000))))
+  {
+    if (((trans.y > (collider->trans.y - 0x5000)) && !(statusa tst 0x40000)))
+    {
+      // 1 bounce
+      var bounces = 100;
+      
+      // send event hit on head with one bounce as arg
+      sendevent(0, self->collider, 1, self->self, bounces);
+      
+      // if the obj responded (hittable on head and would cause bounce)
+      if (self->misc)
+        state 14; // change state to landing on box/enemy
+        
+      field[0x19c] = 0;
+    }
+  }
+  field[0x1a0] = 0;
+  field[0x1a4] = 0;
+  field[0x188] = 0;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.5625, self->self, 12);
+  playsound(0xccc, ld00A);
+  
+  pctrans = pc;
+  
+  if (padread(0x040, 3, 0, 8, 0)) // if >< pressed
+    state 4;                      // change state back to jump
+  if (padread(0x0A0, 3, 0, 8, 0)) // if () or [] pressed
+  {
+    if (((stampanim - field[0x194]) >= 0x3c)) // if a while since the last spin
+      state 15;                   // change state to [start to] spin
+    else                          // else play 'attempt spin but out of energy' sample
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.5625, self->self, 12);
+      playsound(0x666, 0x7ee32049);
+    }
+  }
+  if (padread(0x000, 0, 2, 8, 0)) // if direction is held
+    state 2;                      // continue moving rather than continuing to land
+      
+  // if stopped by solid ground a while since the last landing, 
+  // and floor higher than bottom of player?
+  if (((statusa tst 0x1) && (((stampanim - stampland) >= 0x6) && (field[0x184] < (trans.y - 0x19000)))))
+  {
+    // record landing time
+    stampland = stampanim;
+    
+    // if falling velocity
+    if (velocity.y <= 0)
+      state 11; // change state to falling
+    else
+      state 5;  // ?
+    speed = 0;
+  }
+
+}
+
+// 14 - landing on box/enemy - code block
+void func_102c()
+{
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x666, 0x26b32049);
+  
+  velocity.y = 4200 m/s;
+  
+  pchead = &func_970;
+  
+  unk_150 = -0x5b00;
+  animsequence(0, 86, 1, 3);
+  statusc &= 0xfffffffc;
+  do
+  {
+    unk_150 = -0x5b00;
+    animsequence(0, 86, 63, 3);
+  }
+}
+
+void func_1068()
+{
+  // play the bap sound only once
+  unk_F8 = 0;
+  audiob(0.5625, self->self, 12);
+  audiob((0x399 + (random(0xcc, 0) + ((0x66 * (field[0x1a0] - 0x100)) >> 8))), self->self, 1);
+  playsound(0x1999, 0x16ba8049);
+  pctrans = pc;
+  
+    // if () or [] pressed
+  if (padread(0x0A0, 3, 0, 8, 0)) 
+  {
+    // if a while since the last spin
+    if (((stampanim - field[0x194]) >= 0x3c))
+      state 16; // change state to [start to] spin *in the air*
+    else        // else play the 'attempt to spin but out of energy' sound
+    {
+      audiob((0x399 + random(0xcc, 0)), self->self, 1);
+      audiob(0.5625, self->self, 12);
+      playsound(0x666, 0x7ee32049);
+    }
+  }
+  
+ // if hit the ground
+  if (statusa tst 0x1)
+    state 13; // change state to landing on the ground
+    
+        
+  // while >< is held
+  if (padread(0x40, 2, 0, 8, 0))
+    velocity.y = speed(5454 m/s/s, velocity.y); // accelerate jump velocity at this rate
+    
+  // if directions are held
+  if (!padread(0x000, 0, 2, 8, 0))
+    unk_F8 = 0x100;
+  if (unk_F8) // if directions held
+  {   
+    // when enough jump velocity has been lost
+    if (velocity.y < 2000 m/s)
+      state 10; // change state to 'starting to fall out of a moving jump'
+  } 
+  // else no directions held; when enough velocity has been lost
+  else if (velocity.y < 2000 m/s)
+    state 11; // change state to 'falling from jumping in place'
+}
+
+//15 - start to spin - trans block
+void func_1108()
+{
+  field[0x188] = stampanim;
+  
+  // add 60 for each trans interpretation:
+  // stampanim only reset at codeblock interps., so it isn't updated enough;
+  // we still have to restrict/synchronize to the rate of stampanim, particularly @ 300 ticks
+  // if < 300 'ticks' since last spin
+  if (((stampanim - field[0x194]) >= field[0x198]))
+    field[0x194] = (stampanim - (field[0x198] - 0x3c));
+  else
+    field[0x194] += 0x3c;
+    
+  // change state to spinning
+  state 17;
+}
+
+void func_1138()
+{
+  field[0x188] = stampanim;
+  if (((stampanim - field[0x194]) >= field[0x198]))
+    field[0x194] = (stampanim - (field[0x198] - 0x3c));
+  else
+    field[0x194] += 0x3c;
+  state 18;
+}
+
+// 17 - spinning - code block
+void func_1168()
+{
+  // do sub_22c at next state change
+  pchead = &sub_22c;
+  
+  statusb |= 0x2080;
+  statusb &= 0xfffffffe;
+  
+  
+  audiob(0x400, self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0xfff, 0x38cae049);
+  
+  
+  var var_37 = 0;
+  animpointer(0x3800);
+  do
+  {
+    animframe(trianglewave(&fp[0xc], 256, 0x700), 1, 3);
+  } while (((stampanim - field[0x188]) < 0xc));
+  state 19;
+}
+
+// 16 - starting a jumping spin - event block
+// 17 - spinning - event block
+// 18 - jumping and spinning - event block
+void func_11b0(arg1, arg2)
+{
+  // collectable item is collected
+  if (arg2 == 0x2a00)
+  {
+    guard true;
+    
+    // spin collectable item away
+    var var_38 = 0x1;
+    sendevent(0x400, self->sender, 1, self->self, var_38);
+  }
+  
+  // aku aku is collected
+  if (arg2 == 0x2800)
+  {
+    guard true;
+    
+    // preserve the original sender 
+    var temp = sender;
+    
+    // get the sender from args
+    sender = misc(arg1, 0);
+    var var_40 = 0x1;
+    
+    // spin aku aku away 
+    sendevent(0x400, self->sender, 1, self->self, var_40);
+    
+    // restore the original sender
+    sender = temp;
+  }
+}
+
+// 17 - spinning - trans block
+void func_11e8()
+{
+  
+  // send event kill/break (or spin?) enemy to collider (always, if dne then sendevent will return)
+  var var_41 = field[0x1a4];
+  sendevent(0x400, self->collider, 1, self->self, var_41);
+  
+  // if response from the enemy (killable and could be killed)
+  if (self->misc)
+  {
+    // play spun away sound?
+    audiob(0.5625, self->self, 12);
+    audiob((0x399 + (random(0xcc, 0) + ((0x66 * field[0x1a4]) >> 8))), self->self, 1);
+    playsound(0x1999, 0x388ba049);
+    
+    // increment spin counter
+    field[0x1a4] += 0x100;
+  }
+  
+  // while >< is held
+  if (padread(0x040, 3, 0, 8, 0))
+  {
+    pchead = 0;
+    state 18; // change state to jumping and spinning 
+  }
+  
+  // bit 2 (change dir?)
+  if ((statusa tst 0.1250))
+  {
+    if ((self->scale.x < 0))
+      field[0x18c] = 0x1c7;
+    else
+      field[0x18c] = 0xfffffe39;
+  }
+  rot.x += field[0x18c];
+}
+
+// 18 - jumping and spinning - code block
+void func_1254()
+{
+  // if have been stopped by solid ground
+  if ((statusa tst 0x1))
+  {
+    velocity.y = 4200 m/s;
+    animsequence(0, 56, 1, 3);
+  }
+  
+  // clear bits 1 and 8:
+  // bit 1: no longer launching
+  // bit 8: no longer entering a spin
+  statusc &= 0xffffff7e;
+  
+  // play spin sound?
+  audiob(0x400, self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0xfff, 0x38cae049);
+  
+  // spin anim?
+  var var_42 = 0;
+  animpointer(0x3800);
+  do
+  {
+    animframe(trianglewave(&fp[0xc], 256, 0x700), 1, 3);
+  } while (((stampanim - field[0x188]) >= 0x7));
+  
+  // enter falling variatn state
+  state 20;
+}
+
+// 18 - jumping and spinning - trans block
+void func_12a0()
+{
+  // reset at next state change
+  pchead = &func_22c;
+  
+  // set bits
+  // bit 8: control object speed velocity with controller (as it should be)
+  // bit 14: object rotates in YZ plane towards target angles ? why set
+  // clear bits
+  // bit 1: object rotates in XZ plane towards target angles ? why clear
+  statusb |= 0x2080;
+  statusb &= 0xfffffffe;
+  
+  // add to jump and spin counter?
+  field[0x19c] += 0x100;
+  
+  // ----- above section only once -----
+  pctrans = pc;
+  
+  // send event kill/break (or spin?) enemy to collider (always, if dne then sendevent will return)
+  var var_43 = field[0x1a4];
+  sendevent(0x400, self->collider, 1, self->self, var_43);
+  
+  // if response from the enemy (killable and could be killed)
+  if (self->misc)
+  {
+    // play spin away sound?
+    audiob(0.5625, self->self, 12);
+    audiob((0x399 + (random(0xcc, 0) + ((0x66 * field[0x1a4]) >> 8))), self->self, 1);
+    playsound(0x1999, 0x388ba049);
+    
+    // add to spin counter
+    field[0x1a4] += 0x100;
+  }
+  
+  // if its been a bit since entering this jumping and spinning state, 
+  // and the player has been stopped by solid ground
+  if (!(((stampanim - stampstate) >= 0x2) && (statusa tst 0x1)))
+    state 17; // change to spinning state
+    
+  // if change direction?
+  if ((statusa tst 2))
+  {
+    if ((self->scale.x < 0))
+      field[0x18c] = 2.6666 m/s; (2 & 2/3 m/s)
+    else
+      field[0x18c] = -2.6666 m/s;
+  }
+  
+  // add to rotation spin rate
+  rot.x += field[0x18c];
+  
+  // while >< is held and player is jumping
+  if ((padread(0x040, 2, 0, 8, 0) && (velocity.y > 0)))
+    velocity.y = speed(5454 m/s, velocity.y); // set velocity to this
+}
+
+// 19 - coming out of a spin - code block
+void func_1348()
+{
+  // if directions are held and player has been stopped by solid ground
+  if ((padread(0, 0, 2, 8, 0) && (statusa tst 0x1)))
+  {
+    // momentarily (while in this state) stop player from moving (however, not from falling/jumping)
+    velocity.x = 0;
+    velocity.z = 0;
+    
+    // reset player speed (also needed to stop player from moving further)
+    speed = 0;
+    
+    // set anim to coming out of spin (after moving)
+    animpointer(0x5e00);
+  }
+  
+  // sleep/animate
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) < 0x500));
+  
+  // go to idle state
+  state 1;
+}
+
+// 19 - coming out of a spin - trans block
+void func_1388()
+{ 
+  // reset spin counter
+  field[0x1a4] = 0;
+  
+  // ----- one time -----
+  pctrans = pc;
+  
+  // if >< pressed
+  if (!padread(0x040, 3, 0, 8, 0))
+    state 4; // change state to jumping
+}
+
+// 20 - ?falling variant - code block
+void func_139c()
+{
+  state 11;
+}
+
+// 20 - ?falling variant - trans block
+void func_13a4()
+{
+  field[0x1a4] = 0;
+  codepointer(139, self->pchead);
+  pctrans = pc;
+}
+
+// event 0x200 handler - sender=FruiC - Wumpa Fruit Collect
+void func_13b4(arg1)
+{
+  // get fruit count and add to fruit collected counter
+  var fruitcount = arg1;
+  field[0x160] += fruitcount;
+  
+  // if >= 100 fruit have been collected
+  if ((field[0x160] >= 0x6400))
+  {
+    sender = readglobal(0x600);
+    var var_45 = 0x100;
+    sendevent(0x1100, self->sender, 1, self->self, var_45);
+    field[0x160] -= 0x6400;
+  }
+}
+
+// event 0x500 handler - ? - ?
+void func_13e8(arg1)
+{
+  field[0x164] += arg1;
+  if ((field[0x164] > 0x6300))
+    field[0x164] = 0x6300;
+}
+
+// event 0x600 handler - sender=DoctC - Triple Aku Aku Collect
+// event 0x2800 handler - sender=DoctC - Aku Aku Collect
+void func_1400()
+{
+  var var_46 = 0x400;
+  sendevent(0xf00, self->creator, 1, self->self, var_46);
+  if ((unk_F8 >= 0x300))
+  {
+    self->displaymode = 0x5;
+    self->unk_12C = stampanim;
+    state 21;
+  }
+}
+
+// some routine
+void func_1420(arg1)
+{
+  codepointer(110, self->pchead);
+  unk_F8 = 0xa00;
+  statusb &= 0xffffff7e;
+  statusb |= 0.3750;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.2500, self->self, 12);
+  playsound(0x666, 0x26b32049);
+  velocity.x = 0;
+  velocity.z = 0;
+  speed = 0;
+  velocity.y = 0x13c3a5;
+  animpointer(0x6000);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) <= 0x700));
+  do
+  {
+    spawn(1, 5, 4, 0);
+    fp[0xc] += 0x100;
+    0, = (fp[0xc] < (unk_F8 << 0xffffffff));
+    unk_F8 -= 0x100;
+    animframe(0x700, 1, 3);
+  } while (!(velocity.y > 0));
+  statusb &= 0xffffff9f;
+  do
+  {
+    do
+    {
+      spawn(1, 5, 4, 0);
+      fp[0x10] += 0x100;
+    } while (!(fp[0x10] < (unk_F8 << 0xffffffff)));
+    0, = 0;
+    if ((unk_F8 > 0x500))
+      unk_F8 -= 0x100;
+    else
+      unk_F8 = 0;
+    animframe(0x700, 1, 3);
+  } while (!((stampanim - fp[0xc]) < arg1));
+  0, = stampanim;
+}
+
+// 21 - collecting triple aku/collecting 3 tawna/nbrio/cortex icons - code block
+void func_150c()
+{
+  if ((event == 0x2700))
+    unk_154 = 0x100;
+  else
+    unk_154 = 0;
+  var var_47 = 0x15;
+  func_1420(var_47);
+  if (self->unk_154)
+  {
+    animframe(animframe, 63, 3);
+    velocity.y = 0;
+  }
+  statusb |= 0.3750;
+  state 12;
+}
+
+// 21 - collecting triple aku/collecting 3 tawna/nbrio/cortex icons - event block
+void func_1548()
+{
+  return true null;
+}
+
+// event 0x1000 handler - sender:enemy - enemy has been killed notification
+void func_155c(arg1)
+{
+  // these are reward types based on arg
+  var var_48 = arg1;
+  if ((fp[0xc] == 0x100))
+  {
+    var var_49 = 0x4c00;
+    var var_50 = 0;
+    spawn(1, 3, 13, 2, var_50, var_49);
+    children->trans.x = sender->trans.x;
+    children->trans.y = sender->trans.y;
+    children->trans.z = sender->trans.z;
+  }
+  else if ((fp[0xc] == 0x200))
+  {
+    var var_51 = 0x5e00;
+    var var_52 = 0;
+    spawn(1, 3, 13, 2, var_52, var_51);
+    children->trans.x = sender->trans.x;
+    children->trans.y = sender->trans.y;
+    children->trans.z = sender->trans.z;
+  }
+  else if ((fp[0xc] == 0x300))
+  {
+    var var_53 = 0x5c00;
+    var var_54 = 0;
+    spawn(1, 3, 13, 2, var_54, var_53);
+    children->trans.x = sender->trans.x;
+    children->trans.y = sender->trans.y;
+    children->trans.z = sender->trans.z;
+  }
+  else if ((fp[0xc] == 0x400))
+  {
+    var var_55 = 0x6100;
+    var var_56 = 0;
+    spawn(1, 3, 13, 2, var_56, var_55);
+    children->trans.x = sender->trans.x;
+    children->trans.y = sender->trans.y;
+    children->trans.z = sender->trans.z;
+  }
+  else if ((fp[0xc] == 0x6900))
+    field[0x180] += 0x100;
+  else if ((fp[0xc] == 0x6700))
+    field[0x178] += 0x100;
+  else if ((fp[0xc] == 0x6800))
+    field[0x17c] += 0x100;
+}
+
+// event 0xF00 handler - sender:any - general notification message (arg1 = specifics)
+void func_1620(arg1)
+{
+  if (self->sender)
+  {
+    var var_57 = arg1;
+    if ((fp[0xc] == 0))
+      sender->unk_F8 = field[0x16c];
+    else if ((fp[0xc] == 0x100))
+      sender->unk_F8 = 0;
+    else if ((fp[0xc] == 0x300))
+    {
+      if ((field[0x1a0] > 0))
+        field[0x1a0] -= 0x100;
+    }
+    else if ((fp[0xc] == 0x800))
+      field[0x1a0] = 0;
+    else if ((fp[0xc] == 0x500))
+    {
+      var var_58 = 0x100;
+      func_0(var_58);
+    }
+    else if ((fp[0xc] == 0x600))
+    {
+      var var_59 = 0x400;
+      func_0(var_59);
+    }
+  }
+}
+
+// some routine
+void func_16a0(arg1)
+{
+  codepointer(132, self->pchead);
+  if (!(event == 0x2600))
+  {
+    var var_60 = arg1;
+    sendevent(0x300, self->creator, 1, self->self, var_60);
+    if (!self->misc)
+      state 9;
+  }
+  animcounter -= arg1;
+  statusb &= 0xffffff16;
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = 0;
+  writeglobal((readglobal(0x400) & 0xfffffffd), 0x400);
+  var var_61 = 0;
+  sendevent(0x1c00, self->sender, 1, self->self, var_61);
+}
+
+// some routine
+void func_16f0()
+{
+  if ((readglobal(0x1e00) & 0x2000))
+  {
+    animcounter = 0x6400;
+    var var_62 = 0x100;
+    func_0(var_62);
+  }
+  else if (misc(0x4100, self->self))
+    field[0x164] -= 0x100;
+  else
+  {
+    writeglobal(0.1250, 0x400);
+    var var_63 = 0x200;
+    func_0(var_63);
+  }
+}
+
+//22 - fall in a hole and die - code block
+void func_1748()
+{
+  codepointer(132, self->pchead);
+  stateflags |= 0.1250;
+  writeglobal((readglobal(0x400) & 0xfffffffd), 0x400);
+  statusb &= 0xfbffff77;
+  audiob(0.7500, self->self, 12);
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x1999, 0x1e52a049);
+  audiob(0, self->unk_14C, 5);
+  var var_64 = readglobal(0);
+  if (((fp[0xc] == 0x1100) || (fp[0xc] == 0x1e00)))
+  {
+    writeglobal(-0x100, 0x6a00);
+    do
+    {
+      unk_150 = 0xfc700;
+      animframe(animframe, 1, 3);
+    } while ();
+  }
+  else
+  {
+    animpointer(0x5a00);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+    writeglobal(-0x100, 0x6a00);
+    do
+    {
+      unk_150 = 0xfc700;
+      animsequence(15, 86, 1, 3);
+    } while ();
+  }
+  func_16f0();
+  readglobal(0);
+  state 40;
+}
+
+// 22 - fall in a hole and die - trans block
+void func_17fc()
+{
+  var var_65 = readglobal(0);
+  if (((fp[0xc] == 0x1c00) || ((fp[0xc] == 0x1d00) || ((fp[0xc] == 0x500) || ((fp[0xc] == 0x2800) || (fp[0xc] == 0x2a00))))))
+  {
+    var var_66 = 0;
+    var var_67 = 0x32;
+    writecolor(self->self, intensity.r, approach(doublesp(), var_67));
+    var var_68 = 0;
+    var var_69 = 0x32;
+    writecolor(self->self, intensity.g, approach(doublesp(), var_69));
+    var var_70 = 0;
+    var var_71 = 0x32;
+    writecolor(self->self, intensity.b, approach(doublesp(), var_71));
+    writecolor(self->self, intensity.r, readcolor(self->self, intensity.r));
+    writecolor(self->self, intensity.g, readcolor(self->self, intensity.g));
+    writecolor(self->self, intensity.b, readcolor(self->self, intensity.b));
+    writecolor(self->self, colormatrix.v1x, readcolor(self->self, intensity.r));
+    writecolor(self->self, colormatrix.v1y, readcolor(self->self, intensity.g));
+    writecolor(self->self, colormatrix.v1z, readcolor(self->self, intensity.b));
+    writecolor(self->self, colormatrix.v2x, readcolor(self->self, intensity.r));
+    writecolor(self->self, colormatrix.v2y, readcolor(self->self, intensity.g));
+    writecolor(self->self, colormatrix.v2z, readcolor(self->self, intensity.b));
+    writecolor(self->self, colormatrix.v3x, readcolor(self->self, intensity.r));
+    writecolor(self->self, colormatrix.v3y, readcolor(self->self, intensity.g));
+    writecolor(self->self, colormatrix.v3z, readcolor(self->self, intensity.b));
+  }
+}
+
+// 23 - dying from enemy collision ('woah' death) - code block
+void func_18c4(arg1)
+{
+  var var_72 = arg1;
+  func_16a0(var_72);
+  statusb &= 0xffffdfff;
+  rot.y = 0;
+  
+  
+  var level = readglobal(0);
+  if (level == 0xa00, 0x800, 0x1b00, 0x1700, 0x2100, 0x1f00) // boss level
+  {
+    statusb |= 0x68;
+    writeglobal((readglobal(0x400) | 0x2), 0x400);
+    velocity.x = 0;
+    velocity.z = 0;
+  }
+  else
+  {
+    writeglobal(0, 0xa00);
+    writeglobal(self, 0x2400);
+    writeglobal(0x100, 0x3100);
+    writeglobal(0x1900, 0x3800);
+    writeglobal(0x155, 0x3900);
+    writeglobal(0x5c73c, 0x400);
+    statusb &= 0xffffff97;
+    statusb |= 0x4000000;
+  }
+  var *var_74 = &0x7492aad5;
+  var *var_75 = &0x7495c273;
+  var *var_76 = &0x7492aad5;
+  var *var_77 = &0x7495c1f3;
+  var *var_78 = &0x7492aad5;
+  var *var_79 = &0x7495c173;
+  entryoperation(0x6, 0x5);
+  entryoperation(0,, 0x4);
+  if ((var_78 <= var_79))
+  {
+    entryoperation(0x7495c173, 0x1);
+    entryoperation(0x7492aad5, 0x1);
+    entryoperation(0x7495c1f3, 0x1);
+    entryoperation(0x7492aad5, 0x1);
+    entryoperation(0x7495c273, 0x1);
+    entryoperation(0x7492aad5, 0x1);
+    field[0x1a8] = 0x800;
+  }
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.7500, self->self, 12);
+  playsound(0x1fff, 0x14da0049);
+  audiob((0x2e1 + random(0x72, 0)), self->self, 1);
+  audiob(0.7500, self->self, 12);
+  playsound(0x1332, 0x1ae02049);
+  animpointer(0x6200);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while ();
+  if ((self->scale.x < 0))
+    unk_F8 = 0x171;
+  else
+    unk_F8 = 0xfffffe8f;
+  rot.x += unk_F8;
+  animframe(0x500, 1, 3);
+  do
+  {
+    do
+    {
+      rot.x += unk_F8;
+      animframe(0x500, 1, 3);
+      fp[0xc] += 0x100;
+    } while ();
+    0, = 0;
+    entryoperation(0x7492aad5, 0x3);
+    entryoperation(0x7495c173, 0x3);
+  } while ();
+  if ((self->scale.x < 0))
+    rot.z = (rot.x + 0x4e3);
+  else
+    rot.z = (rot.x - 0x4e3);
+  if ((field[0x1a8] == 0x800))
+  {
+    animpointer(0x6400);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+    do
+    {
+      rot.y -= 0x5b;
+      animframe(0x1300, 1, 3);
+      fp[0xc] += 0x100;
+    } while ();
+    0, = 0;
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0.7500, self->self, 12);
+    playsound(0x3332, 0x1a094049);
+    animpointer(0x6600);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+    animframe(0x900, 12, 3);
+    animpointer(0x6800);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0.7500, self->self, 12);
+    playsound(0x2998, 0x1a096049);
+    animframe(0x700, 21, 3);
+    writeglobal(-0x100, 0x6a00);
+    do
+    {
+      animframe(0x700, 1, 3);
+    } while ();
+    entryoperation(0x7495c173, 0x2);
+    entryoperation(0x7492aad5, 0x2);
+    entryoperation(0x7495c1f3, 0x2);
+    entryoperation(0x7492aad5, 0x2);
+    entryoperation(0x7495c273, 0x2);
+    entryoperation(0x7492aad5, 0x2);
+    field[0x1a8] = 0x700;
+  }
+  statusc &= 0xfffffff7;
+  func_16f0();
+  call(var_80);
+  state 40;
+}
+
+// 24 - TNT explosion death - code block
+void func_1b4c(arg1)
+{
+  var var_80 = arg1;
+  func_16a0(var_80);
+  unk_154 = 0;
+  statusb |= 0x168;
+  statusb &= 0xffffdffe;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.7500, self->self, 12);
+  playsound(0x1fff, 0x14da0049);
+  var *var_81 = &0x75b82055;
+  var *var_82 = &0x75b84073;
+  var *var_83 = &0x75b82055;
+  var *var_84 = &0x75b82073;
+  entryoperation(0x4, 0x5);
+  entryoperation(0,, 0x4);
+  if ((var_83 <= var_84))
+  {
+    entryoperation(0x75b82073, 0x1);
+    entryoperation(0x75b82055, 0x1);
+    entryoperation(0x75b84073, 0x1);
+    entryoperation(0x75b82055, 0x1);
+    unk_154 = 0x100;
+    rot.y = 0;
+  }
+  rot.z = 0;
+  animsequence(0, 98, 21, 3);
+  if (self->unk_154)
+  {
+    do
+    {
+      animsequence(0, 98, 1, 3);
+      entryoperation(0x75b82055, 0x3);
+      entryoperation(0x75b82073, 0x3);
+    } while ();
+    scale.x = 0x1666;
+    scale.y = 0x1666;
+    scale.z = 0x1666;
+    statusb &= 0xfffffed7;
+    statusb |= 0x4040;
+    velocity.x = 0;
+    velocity.y = 0xfff2e001;
+    velocity.z = 0;
+    unk_F8 = 0x100;
+    groundy = trans.y;
+    trans.y += 0xfa000;
+    do
+    {
+      animsequence(0, 32, 1, 3);
+    } while ();
+    audiob((0x466 + random(0xcc, 0)), self->self, 1);
+    audiob(0x6, self->self, 7);
+    audiob(0.7500, self->self, 12);
+    playsound(0x1999, 0x2a682049);
+    audiob((0x466 + random(0xcc, 0)), self->self, 1);
+    audiob(0xc, self->self, 7);
+    audiob(0.7500, self->self, 12);
+    playsound(0x333, 0x2a682049);
+    animpointer(0x2000);
+    animframe = 0;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+    entryoperation(0x75b82073, 0x2);
+    entryoperation(0x75b82055, 0x2);
+    audiob((0x466 + random(0xcc, 0)), self->self, 1);
+    audiob(0x3, self->self, 7);
+    audiob(0.7500, self->self, 12);
+    playsound(0x2665, 0x2a682049);
+    audiob((0x466 + random(0xcc, 0)), self->self, 1);
+    audiob(0x6, self->self, 7);
+    audiob(0.7500, self->self, 12);
+    playsound(0x666, 0x2a682049);
+    animpointer(0x2200);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while ();
+    animframe(animframe, 18, 3);
+    writeglobal(-0x100, 0x6a00);
+    animframe(animframe, 9, 3);
+    unk_F8 = 0;
+    do
+    {
+      animframe(animframe, 1, 3);
+    } while ();
+    entryoperation(0x75b84073, 0x2);
+    entryoperation(0x75b82055, 0x2);
+    func_16f0();
+  }
+  assign(0);
+  state 40;
+}
+
+// 24 - TNT explosion death - trans block
+void func_1cf0()
+{
+  unk_F8 = 0;
+  pctrans = pc;
+  rot.x = readglobal(0xf00);
+  if (self->unk_F8)
+  {
+    if (!random(0x4, 0))
+    {
+      var var_85 = 0;
+      spawn(1, 34, 18, 1, var_85);
+    }
+    if (!random(0x4, 0))
+    {
+      var var_86 = 0x100;
+      spawn(1, 34, 18, 1, var_86);
+    }
+  }
+}
+
+// 25 - ? - code block
+void func_1d30()
+{
+  state 26;
+}
+
+// 26 - ? - code block
+void func_1d38(arg1)
+{
+  var var_87 = arg1;
+  func_16a0(var_87);
+  statusb &= 0xfbffdf16;
+  var var_88 = 0;
+  var var_89 = 0x100;
+  spawn(3, 9, 11, 2, var_89, var_88);
+  var var_90 = 0x200;
+  var var_91 = 0x300;
+  spawn(1, 9, 11, 2, var_91, var_90);
+  var var_92 = 0x400;
+  var var_93 = 0x500;
+  spawn(1, 9, 11, 2, var_93, var_92);
+  var var_94 = 0x600;
+  var var_95 = 0x700;
+  spawn(1, 9, 11, 2, var_95, var_94);
+  var var_96 = 0x800;
+  var var_97 = 0x900;
+  spawn(1, 9, 11, 2, var_97, var_96);
+  var var_98 = readglobal(0);
+  if ((fp[0xc] == 0x500))
+    unk_F8 = 0x300;
+  else
+    unk_F8 = 0xa00;
+  do
+  {
+    if ((fp[0xc] == (unk_F8 - 0x200)))
+    {
+      writeglobal(-0x100, 0x6a00);
+      writecolor(self->self, intensity.r, 0xff);
+    }
+    writecolor(self->self, intensity.g, 0xff);
+    writecolor(self->self, intensity.b, 0xff);
+    writecolor(self->self, colormatrix.v1x, 0xff);
+    writecolor(self->self, colormatrix.v1y, 0xff);
+    writecolor(self->self, colormatrix.v1z, 0xff);
+    writecolor(self->self, colormatrix.v2x, 0xff);
+    writecolor(self->self, colormatrix.v2y, 0xff);
+    writecolor(self->self, colormatrix.v2z, 0xff);
+    writecolor(self->self, colormatrix.v3x, 0xff);
+    writecolor(self->self, colormatrix.v3y, 0xff);
+    writecolor(self->self, colormatrix.v3z, 0xff);
+    animsequence(0, 18, 1, 3);
+    writecolor(self->self, intensity.r, 0x200);
+    writecolor(self->self, intensity.g, 0x200);
+    writecolor(self->self, intensity.b, 0x200);
+    writecolor(self->self, colormatrix.v1x, 0x200);
+    writecolor(self->self, colormatrix.v1y, 0x200);
+    writecolor(self->self, colormatrix.v1z, 0x200);
+    writecolor(self->self, colormatrix.v2x, 0x200);
+    writecolor(self->self, colormatrix.v2y, 0x200);
+    writecolor(self->self, colormatrix.v2z, 0x200);
+    writecolor(self->self, colormatrix.v3x, 0x200);
+    writecolor(self->self, colormatrix.v3y, 0x200);
+    writecolor(self->self, colormatrix.v3z, 0x200);
+    animsequence(1, 18, 1, 3);
+    animsequence(2, 18, 1, 3);
+    writecolor(self->self, intensity.r, 0x32);
+    writecolor(self->self, intensity.g, 0x32);
+    writecolor(self->self, intensity.b, 0x32);
+    writecolor(self->self, colormatrix.v1x, 0x32);
+    writecolor(self->self, colormatrix.v1y, 0x32);
+    writecolor(self->self, colormatrix.v1z, 0x32);
+    writecolor(self->self, colormatrix.v2x, 0x32);
+    writecolor(self->self, colormatrix.v2y, 0x32);
+    writecolor(self->self, colormatrix.v2z, 0x32);
+    writecolor(self->self, colormatrix.v3x, 0x32);
+    writecolor(self->self, colormatrix.v3y, 0x32);
+    writecolor(self->self, colormatrix.v3z, 0x32);
+    animsequence(0, 18, 1, 3);
+    animsequence(1, 18, 1, 3);
+    animsequence(2, 18, 1, 3);
+    fp[0xc] += 0x100;
+  } while ();
+  0, = 0;
+  func_16f0();
+  call(var_99);
+  state 40;
+}
+
+// 27 - burn to ash death - code block
+void func_1e70(arg1)
+{
+  var var_99 = arg1;
+  func_16a0(var_99);
+  statusb &= 0xfbfffffe;
+  writeglobal((readglobal(0x400) & 0xfffffffd), 0x400);
+  statusb |= 0x1;
+  entryoperation(0,, 0x4);
+  if ((var_98 >= 0x3))
+  {
+    unk_154 = 0x100;
+    entryoperation(0x200e3d9, 0x1);
+    entryoperation(0x200e359, 0x1);
+  }
+  else
+    unk_154 = 0;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.7500, self->self, 12);
+  playsound(0x1fff, 0x14da0049);
+  audiob(0.7500, self->self, 12);
+  audiob((0x47a + random(0xcc, 0)), self->self, 1);
+  audiob(0x2d, self->self, 6);
+  audiob(0, self->self, 0);
+  playsound(0x2fff, 0x2010159);
+  animsequence(11, 74, 30, 3);
+  audiob(0.7500, self->self, 12);
+  audiob((0x3ae + random(0x51, 0)), self->self, 1);
+  playsound(0x1999, 0x2010259);
+  animsequence(12, 74, 2, 3);
+  animsequence(11, 74, 6, 3);
+  do
+  {
+    audiob(0.7500, self->self, 12);
+    audiob((0x428 + random(0x51, 0)), self->self, 1);
+    playsound(0x1666, 0x2010259);
+    animsequence(12, 74, 2, 3);
+    animsequence(11, 74, 6, 3);
+    misc ! unk_154;
+    if (!self->misc)
+    {
+      entryoperation(0x200e359, 0x3);
+      entryoperation(0x200e3d9, 0x3);
+      misc = (var_74 && var_75);
+      if (!self->misc)
+        misc = 0;
+    }
+  } while ();
+  entryoperation(0x200e459, 0x1);
+  entryoperation(0x200e359, 0x1);
+  animsequence(12, 74, 2, 3);
+}
+
+if (self->unk_154)
+{
+  unk_F8 = 0x100;
+  audiob(0x4, self->unk_14C, 6);
+  audiob(0, self->unk_14C, 0);
+  audiob(0.7500, self->self, 12);
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x1fff, 0x20101d9);
+  animpointer(0x2400);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while ();
+  entryoperation(0x200e3d9, 0x2);
+  entryoperation(0x200e359, 0x2);
+  entryoperation(0x200e4d9, 0x1);
+  entryoperation(0x200e359, 0x1);
+  animpointer(0x2600);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while ();
+  entryoperation(0x200e459, 0x2);
+  entryoperation(0x200e359, 0x2);
+  entryoperation(0x2010059, 0x1);
+  entryoperation(0x200e359, 0x1);
+  animpointer(0x2800);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while ();
+  entryoperation(0x200e4d9, 0x2);
+  entryoperation(0x200e359, 0x2);
+  entryoperation(0x20100d9, 0x1);
+  entryoperation(0x200e359, 0x1);
+  animpointer(0x2a00);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while ();
+  entryoperation(0x2010059, 0x2);
+  entryoperation(0x200e359, 0x2);
+  animpointer(0x2c00);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while ();
+  animframe(animframe, 48, 3);
+  writeglobal(-0x100, 0x6a00);
+  do
+  {
+    animframe(animframe, 1, 3);
+  } while ();
+  entryoperation(0x20100d9, 0x2);
+  entryoperation(0x200e359, 0x2);
+  func_16f0();
+}
+
+add(arg1);
+
+state 40;
+
+// missing drown state func_...
+
+// 29 - ? - code block
+void func_2224()
+{
+  codepointer(132, self->pchead);
+  func_16f0();
+  audiob(0x3, self->self, 7);
+  state 40;
+}
+
+// 30 - ? - code block
+void func_2238()
+{
+  audiob(0x3, self->self, 7);
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound(0x666, 0x20044d9);
+  animpointer(0x4800);
+  animframe = -0x100;
+  do
+  {
+    animframe((animframe + 0x100), 1, 3);
+  } while (!((animframe + 0x100) < 0x700));
+  animsequence(8, 72, 30, 3);
+  if (!random(0x2, 0))
+  {
+    animsequence(9, 72, 1, 3);
+    animsequence(10, 72, 1, 3);
+    animsequence(11, 72, 1, 3);
+    animsequence(12, 72, 1, 3);
+    if (!random(0x2, 0))
+    {
+      animsequence(13, 72, 15, 3);
+      animsequence(13, 72, 1, 3);
+    }
+    animsequence(12, 72, 1, 3);
+    animsequence(11, 72, 1, 3);
+    animsequence(10, 72, 1, 3);
+    animsequence(9, 72, 1, 3);
+  }
+}
+
+// 31 - crushed (by roller or boulder) death - code block
+void func_233C(arg1)
+{
+  codepointer(132, self->pchead);
+  if (!(event == 0x2500))
+  {
+    var var_0 = arg1;
+    sendevent(0x300, self->creator, 1, self->self, var_0);
+    if (!self->misc)
+      state 9;
+    zindex = 0xa;
+  }
+  rot.x = 0x800;
+  statusb &= 0xffffff7e;
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = 0;
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  audiob(0.7500, self->self, 12);
+  playsound(0x1fff, 0x14da0049);
+  if ((readglobal(0) == 0x700))
+  {
+    audiob(0.7500, self->self, 12);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0x3fff, 0x20060d9);
+  }
+  else
+  {
+    audiob(0.7500, self->self, 12);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0x2ccc, 0x20060d9);
+  }
+  animsequence(0, 106, 1, 3);
+  animsequence(1, 106, 1, 3);
+  animsequence(2, 106, 1, 3);
+  animsequence(3, 106, 1, 3);
+  animsequence(4, 106, 39, 3);
+  animsequence(5, 106, 1, 3);
+  animsequence(6, 106, 1, 3);
+  animsequence(7, 106, 1, 3);
+  animsequence(8, 106, 1, 3);
+  animsequence(9, 106, 1, 3);
+  animsequence(10, 106, 1, 3);
+  animsequence(11, 106, 1, 3);
+  animsequence(12, 106, 15, 3);
+  animsequence(12, 106, 1, 3);
+  animsequence(9, 106, 1, 3);
+  animsequence(6, 106, 1, 3);
+  animsequence(4, 106, 18, 3);
+  writeglobal(-0x100, 0x6a00);
+  do
+  {
+    animsequence(4, 106, 1, 3);
+  } while ((readglobal(0x6a00) == 0xffffffff));
+  func_16f0();
+  logicalnot(((readglobal(0) == 0xe00) || (readglobal(0) == 0x1300)));
+  state 40;
+}
+
+// 31 - crushed (by roller or boulder) death - trans block
+void func_2428()
+{
+  if (!((readglobal(0) == 0xe00) || (readglobal(0) == 0x1300)))
+  {
+    if ((camzoom < 0x32000))
+      camzoom += 0x2800;
+  }
+}
+
+// some routine
+void func_2458()
+{
+  var var_1 = field[0x1a8];
+  if ((fp[0xc] == 0xa00))
+  {
+    entryoperation(0x75d04073, 0x2);
+    entryoperation(0x74974c55, 0x2);
+  }
+  else if ((fp[0xc] == 0xb00))
+  {
+    entryoperation(0x75d04073, 0x2);
+    entryoperation(0x74974c55, 0x2);
+    entryoperation(0x75d06073, 0x2);
+    entryoperation(0x74974c55, 0x2);
+  }
+  else if ((fp[0xc] == 0xc00))
+  {
+    entryoperation(0x75d0a073, 0x2);
+    entryoperation(0x74974c55, 0x2);
+  }
+  else if ((fp[0xc] == 0xd00))
+  {
+    entryoperation(0x75d0a073, 0x2);
+    entryoperation(0x74974c55, 0x2);
+    entryoperation(0x75d0c073, 0x2);
+    entryoperation(0x74974c55, 0x2);
+  }
+}
+
+// some routine
+void func_24C8()
+{
+  var *var_2 = &0x74974c55;
+  var *var_3 = &0x75d06073;
+  var *var_4 = &0x74974c55;
+  var *var_5 = &0x75d04073;
+  entryoperation(0x4, 0x5);
+  entryoperation(0,, 0x4);
+  if ((var_4 <= var_5))
+  {
+    entryoperation(0x75d04073, 0x1);
+    entryoperation(0x74974c55, 0x1);
+    field[0x1a8] = 0xa00;
+    animpointer(0x1400);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0x1300));
+    entryoperation(0x75d06073, 0x1);
+    entryoperation(0x74974c55, 0x1);
+    field[0x1a8] = 0xb00;
+    audiob(0x400, self->self, 1);
+    audiob(0x9, self->self, 7);
+    audiob(0.6250, self->self, 12);
+    playsound(0x1fff, 0x328c0049);
+    animpointer(0x1600);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0x1300));
+    audiob(0x400, self->self, 1);
+    audiob(0.7500, self->self, 12);
+    audiob(0x4, self->self, 7);
+    playsound(0x1fff, 0x7593a049);
+    animpointer(0x1800);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0x1300));
+    velocity.y = 0x1f4000;
+    if (!(readglobal(0x1e00) & 0x2000))
+      misc(0x1900);
+    do
+    {
+      velocity.y = speed(0x2ee000, velocity.y);
+      trans.y = speed(velocity.y, trans.y);
+      animframe(0x1300, 1, 3);
+    } while (!((stampanim - fp[0xc]) < 0x1e));
+    0, = stampanim;
+    animframe(0x1300, 3, 3);
+  }
+}
+
+// some routine
+void func_25B8(arg1)
+{
+  var *var_6 = &0x74974c55;
+  var *var_7 = &0x75d0c073;
+  var *var_8 = &0x74974c55;
+  var *var_9 = &0x75d0a073;
+  entryoperation(0x4, 0x5);
+  entryoperation(0,, 0x4);
+  if ((var_8 <= var_9))
+  {
+    entryoperation(0x75d0a073, 0x1);
+    entryoperation(0x74974c55, 0x1);
+    field[0x1a8] = 0xc00;
+    animpointer(0x1a00);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0xf00));
+    entryoperation(0x75d0c073, 0x1);
+    entryoperation(0x74974c55, 0x1);
+    field[0x1a8] = 0xd00;
+    animpointer(0x1c00);
+    animframe = -0x100;
+    do
+    {
+      animframe((animframe + 0x100), 1, 3);
+    } while (!((animframe + 0x100) <= 0x1300));
+    if (arg1)
+    {
+      audiob(0x400, self->self, 1);
+      audiob(0x4, self->self, 7);
+      audiob(0.7500, self->self, 12);
+      playsound(0x1fff, 0x7593a049);
+      animpointer(0x1e00);
+      animframe = -0x100;
+      do
+      {
+        animframe((animframe + 0x100), 1, 3);
+      } while (!((animframe + 0x100) <= 0x1300));
+      velocity.y = 0x1f4000;
+      if ((readglobal(0x1400) >= 0.1250))
+        misc = (readglobal(0x4800) & (0x1 << (readglobal(0x1400) - 0.1250)));
+      else
+        misc = (readglobal(0x3f00) & (0x1 << readglobal(0x1400)));
+      if (self->misc)
+        misc(0x1900);
+      else
+        misc(0x2d00);
+      do
+      {
+        velocity.y = speed(0x2ee000, velocity.y);
+        trans.y = speed(velocity.y, trans.y);
+        animframe(0x1300, 1, 3);
+      } while (!((stampanim - fp[0xc]) < 0x1e));
+      0, = stampanim;
+      animframe(0x1300, 3, 3);
+    }
+  }
+}
+
+// 32 - wew level completion/completing a level and not meeting box quota - code block
+void func_26D8(arg1)
+{
+  codepointer(2326, self->pchead);
+  statusb = 0x4000000;
+  if (!((readglobal(0x1e00) & 0x2000) || (readglobal(0x1400) >= 0.1250)))
+  {
+    if (((readglobal(0x1400) + 0x1) > readglobal(0x2f00)))
+      writeglobal((readglobal(0x1400) + 0x1), 0x2f00);
+  }
+  var var_10 = readglobal(0);
+  if (((fp[0xc] == 0x2100) || ((fp[0xc] == 0x1b00) || ((fp[0xc] == 0x1700) || ((fp[0xc] == 0x1f00) || ((fp[0xc] == 0x800) || (fp[0xc] == 0xa00)))))))
+  {
+    event = 0;
+    audiob(0x400, self->self, 1);
+    audiob(0.9375, self->self, 12);
+    playsound(0x3fff, 0x20003d9);
+    var var_11 = 0x4e;
+    func_1420(var_11);
+  }
+  else if ((readglobal(0x6c00) || ((readglobal(0x1e00) & 0x2000) || (readglobal(0) == 0x2c00))))
+  {
+    if ((arg1 == 0x200))
+    {
+      var var_12 = 0;
+      func_25b8(var_12);
+      state 33;
+      func_24c8();
+    }
+    if (!readglobal(0x6d00))
+    {
+      var var_13 = readglobal(0);
+      if (((fp[0x10] == 0x2400) || (fp[0x10] == 0x3300)))
+      {
+        statusb |= 0x100;
+        writeglobal(0, 0x6300);
+        writeglobal(0x9, 0x100);
+        spawn(1, 57, 0, 0);
+        do
+        {
+          animseq = 0;
+          animframe(0, 1, 3);
+        } while ((readglobal(0x100) == 0));
+      }
+      if ((fp[0x10] == 0x3400))
+      {
+        if (((readglobal(0) == 0x3400) && !(readglobal(0x100) == 0)))
+        {
+          spawn(1, 57, 0, 0);
+          do
+          {
+            animseq = 0;
+            animframe(0, 1, 3);
+          } while ((readglobal(0x100) == 0));
+        }
+      }
+    }
+  }
+  else
+  {
+    var var_14 = 0x100;
+    func_25b8(var_14);
+    if ((readglobal(0x1400) >= 0.1250))
+      misc = (readglobal(0x4800) & (0x1 << (readglobal(0x1400) - 0.1250)));
+    else
+      misc = (readglobal(0x3f00) & (0x1 << readglobal(0x1400)));
+    if (!misc)
+    {
+      var var_15 = 0x500;
+      func_0(var_15);
+      writeglobal(readglobal(0), 0x4700);
+      writeglobal(readglobal(0x3e00), 0x4600);
+      misc(0x2d00);
+      do
+      {
+        animframe(animframe, 63, 3);
+      }
+    }
+  }
+}
+
+// 33 - ? - code block
+void func_28E0()
+{
+  statusb = 0x4000000;
+  do
+  {
+    animframe(animframe, 1, 3);
+  } while ((readglobal(0x1100) == 0));
+  animseq = 0;
+  animframe(0, 1, 3);
+}
+
+// 33 - ? - trans block
+void func_2904()
+{
+  camzoom = 0xfff06000;
+  writeglobal(stampanim, 0x4100);
+}
+
+// 40 - warping/respawning - code block
+void func_2910()
+{
+  zindex = 0x18;
+  field[0x194] = 0;
+  field[0x198] = 0x12c;
+  field[0x188] = 0;
+  self->displaymode = 0;
+  if (((readglobal(0) == 0x1100) || (readglobal(0) == 0x1e00)))
+  {
+    audiob(0x400, self->self, 1);
+    audiob(0x2, self->self, 7);
+    audiob(0.6250, self->self, 12);
+    playsound(0x1fff, 0x7562e049);
+    state 35;
+  }
+  if (((readglobal(0) == 0x2100) || ((readglobal(0) == 0x1f00) || ((readglobal(0) == 0x1700) || ((readglobal(0) == 0x1b00) || ((readglobal(0) == 0x800) || (readglobal(0) == 0xa00)))))))
+  {
+    if (readglobal(0x500))
+    {
+      var var_0 = self;
+      sendevent(0x600, self->creator, 1, self->self, var_0);
+      var var_1 = self;
+      sendevent(0x600, self->creator, 1, self->self, var_1);
+      var *var_2 = &0x75002055;
+      var *var_3 = &0x75002073;
+    }
+  }
+  entryoperation(0x2, 0x5);
+  entryoperation(0,, 0x4);
+  if (!(!(var_2 <= var_3) || ((readglobal(0) == 0x800) || (readglobal(0) == 0x2100))))
+    state 12;
+  codepointer(110, self->pchead);
+  if ((readglobal(0x6900) == 0))
+  {
+    entryoperation(0x75002073, 0x1);
+    entryoperation(0x75002055, 0x1);
+  }
+  else
+  {
+    entryoperation(0x75002073, 0x6);
+    entryoperation(0x75002055, 0x6);
+  }
+  field[0x1a8] = 0xe00;
+  statusb &= 0xfbffff7f;
+  statusb |= 0x100;
+  do
+  {
+    animsequence(0, 74, 1, 3);
+    entryoperation(0x75002055, 0x3);
+    entryoperation(0x75002073, 0x3);
+  } while (((0x7492aacd + 0x7492aacd) && (0x7492aacd + 0x7492aacd)));
+  animsequence(0, 74, 10, 3);
+  var var_4 = 0xa000;
+  var var_5 = 0x1666;
+  spawn(1, 0, 1, 2, var_5, var_4);
+  var var_6 = 0x5000;
+  var var_7 = 0x1999;
+  spawn(1, 0, 1, 2, var_7, var_6);
+  var var_8 = -0x5000;
+  var var_9 = 0xccc;
+  spawn(1, 0, 1, 2, var_9, var_8);
+  var var_10 = -0xa000;
+  var var_11 = 0x1333;
+  spawn(1, 0, 1, 2, var_11, var_10);
+  statusb &= 0xfffffeff;
+  audiob(0x400, self->self, 1);
+  audiob(0.6250, self->self, 12);
+  playsound(0x1fff, 0x7562e049);
+  codepointer(2738, self->pctrans);
+  statusb |= 0x4000000;
+  animpointer(0x3600);
+  animframe = 0x1500;
+  do
+  {
+    animframe((animframe + -0x100), 1, 3);
+  } while (!((animframe + -0x100) >= 0));
+  entryoperation(0x75002073, 0x2);
+  entryoperation(0x75002055, 0x2);
+  field[0x1a8] = 0x700;
+  if (!(statusa tst 0x1))
+    state 1;
+  state 12;
+}
+
+// 40 - warping/respawning - event block
+void func_2AA8(arg1, arg2)
+{
+  if (((arg2 == 0x1300) && (field[0x1a8] == 0xe00)))
+  {
+    entryoperation(0x75002073, 0x2);
+    entryoperation(0x75002055, 0x2);
+    field[0x1a8] = 0x700;
+  }
+}
+
+// some routine
+void func_2AC8()
+{
+  if (!(statusa tst 0.1250))
+  {
+    if ((readglobal(0x2b00) < 0x21))
+    {
+      var var_12 = 0xfa00;
+      var var_13 = self;
+      var var_14 = 0x12;
+      spawn(1, 5, 3, 3, var_14, var_13, var_12);
+    }
+    if ((readglobal(0x2b00) < 0x1e))
+    {
+      var var_15 = 0xfa00;
+      var var_16 = self;
+      var var_17 = 0x12;
+      spawn(1, 5, 3, 3, var_17, var_16, var_15);
+    }
+  }
+}
+
+// 41 - ? - code block
+void func_2B08(arg1, arg2)
+{
+  zindex = 0.1875;
+  scale.x = arg1;
+  scale.y = arg1;
+  scale.z = arg1;
+  if (!random(0x2, 0))
+    targetrot.z = (0xaa + random(0x38, 0));
+  else
+    targetrot.z = -(0xaa + random(0x38, 0));
+  unk_F8 = random(0xf, 0);
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = arg2;
+  modeflagsa = random(0xc801, -0xc800);
+  modeflagsb = random(0xc800, 0);
+  modeflagsc = arg2;
+  animseq = 0;
+  animframe(0, 1, 3);
+  animpointer(0x2e00);
+  animframe = random(0x300, 0);
+  do
+  {
+    animframe(animframe, 1, 3);
+  } while (!(scale.x > 0));
+}
+
+// 41 - ? - trans block
+void func_2b94()
+{
+  if (!(statusa tst 0.1250))
+  {
+    var var_18 = targetrot.y;
+    var var_19 = targetrot.x;
+    var var_20 = targetrot.z;
+    vectormisca(self->creator, 0, self->targetrot.y);
+    trans.x = (targetrot.y + velocity.x);
+    trans.y = (targetrot.x + velocity.y);
+    trans.z = (targetrot.z + velocity.z);
+    targetrot.z = fp[0x14];
+    targetrot.x = fp[0x10];
+    targetrot.y = fp[0xc];
+    var var_21 = modeflagsa;
+    var var_22 = 0x800;
+    velocity.x = approach(doublesp(), velocity.x);
+    var var_23 = modeflagsb;
+    var var_24 = 0x800;
+    velocity.y = approach(doublesp(), velocity.y);
+    var var_25 = modeflagsc;
+    var var_26 = 0x800;
+    velocity.z = approach(doublesp(), velocity.z);
+    if (!sawwave(unk_F8, 0xf))
+    {
+      modeflagsa = random(0x14001, 0xfffec000);
+      modeflagsb = random(0xa001, -0xa000);
+      modeflagsc = random(0x14001, 0xfffec000);
+    }
+    rot.z += targetrot.z;
+    if (!(creator->stateflags tst 0x8000))
+    {
+      scale.x -= 0x333;
+      scale.y = scale.x;
+    }
+  }
+}

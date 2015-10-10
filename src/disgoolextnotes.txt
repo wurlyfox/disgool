@@ -1,0 +1,410 @@
+blocktype flags
+--------------------------
+1 = begins a routine
+2 = begins an if
+3 = begins an else
+4 = begins a loop 
+5 = loop has a condition
+6 = is a break
+7 = is a goto
+- sequence of types 2 and 3 may eventually be converted to switch statement if necessary
+- loop types:
+  bit 4 = set, bit 5 = clear: while(1) loop
+  bit 4 = set, bit 5 = set, loopcond = 0: while(cond) loop
+  bit 4 = set, bit 5 = set, loopcond > 0: do {} while(cond); loop
+
+ex: an instruction can have compound block type:
+
+*BNEZ 0x10($pc), self.trans.x
+ PSHA 0, fp[-0x4]
+ SUB 1, self.trans.x
+ MOVE pop(), self.trans.y
+ BNEZ -0x10($pc), self.trans.y
+ MOVE fp[-0x4], self.trans.z
+ RET
+  
+the above code may translate to:
+
+void routine(int arg1)
+{
+  do
+  {
+    if (self.trans.x)
+      break;
+  } while(--self.trans.y)
+  self.trans.z = arg1;
+}
+  
+the marked instruction has the following blocktype flags set:
+1 = set : i.e. begins the 'routine()' routine
+2 = set : i.e. begins the if statement (testing self.trans.x)
+4 = set : i.e. begins the do loop
+5 = set : i.e. the loop condition is the result of the conditional branch at offset of 4 
+6 = set : i.e. the if statement will break the loop if its tested expression evaluates to true
+
+
+    
+ 1st pass - visit each instruction in sequence:
+ a) when a branch instruction visited:
+    -mark it as a 'branch source' 
+    -mark instruction at destination as a 'branch target'
+ ...
+ 2nd pass (optionally determines unreachable 'skipped over' code segments)
+ (otherwise we can assume all instructions are reachable)
+ a) start from beginning 
+ b) assume all instructions up until the next unconditional branch are reachable:
+    -visit them in sequence, marking each as reachable
+ c) when the unconditional branch visited (or any type of branch that always results in taking the same path):
+    -mark it as reachable
+    -if the branch is forward:
+      -unless the following instruction is a branch target, mark all following instructions
+       up until the next instruction marked as a branch target as -unreachable-, then marking the
+       instruction at the branch target as reachable and repeating from step b starting at that
+       instruction
+    -if the branch is backward:
+      -if the instruction at the target is not already marked as reachable, mark it as reachable
+       and continue the marking process repeating from step b) (starting at the instruction at branch target)
+      -if the instruction at the target is already marked as reachable, mark all following instructions
+       up until and including the next ret instruction (or the next instruction marked as branch target if it 
+       were ever to occur-but in this case instead just handle like a forward branch) as unreachable. 
+       if the ret does not mark the end of all code, then repeat from step b starting at the instruction
+       following the ret
+
+ 3rd pass
+ a) set rta [= routine address] to code beginning. start from beginning.
+ b) when a conditional branch instruction visited
+    - if the branch is forward
+      - start from the branch destination and visit instructions backward until the line with the branch itself 
+       is reached; if a ret instruction is reached during the process, the branch is to a location outside of
+       the current routine
+        - it might be a branch to a shorter segment following the main ret of the routine that could be considered
+          part of the main routine itself; prompt user to make ultimate decision?:
+          = if user decides to make the instructions at the branch target into a block:
+            - set the 'skippedret' flag of the ret
+          = else
+            - if the shorter segment directly follows the ret, set force call ext flag
+            - else set force goto ext flag
+      - mark the 'if' bit in the instruction's blocktype
+      - visit each instruction in the 'instruction block' that is branched over
+        1) when an unconditional branch is visited
+           
+           - if the branch does no actual branching and is used only for popping the stack
+              - skip
+           - if the branch is to a location within the block
+             - if the branch is forward
+               - skip the instructions in the sub-block that is branched over
+               - continue visiting
+             - if the branch is backward
+               - mark the branch as a block end
+               - mark the instruction at the branch destination as a 'do' blocktype
+           
+           - if the branch is to the location of or to a location past the initial conditional branches'
+             target
+             = mark the instruction directly preceding the branch as a block end (increment endscopecount)
+             = mark the branch as an else blocktype
+             = mark the instruction directly preceding the instruction at the branch target as a block end
+               (increment its endscopecount)
+             = continue visiting starting at the instruction following the branch
+           
+           - if the branch is to a location before the start of the block
+             = mark the instruction at the branch target as a do blocktype?
+             = mark the branch as a block end (increment its endscopecount) and a while blocktype?
+         2) when a conditional branch is visited...
+              repeat recursively from step b, introducing a new scope
+         3) when a ret instruction is visited
+            = if the skipped ret flag is not set
+              - mark the ret as a block end (increment its endscopecount)
+              - mark instruction at rta as routine blocktype
+              - set rta to reference the instruction following the rta
+
+         [if with no else]
+         4) when the last instruction in the block is visited
+            = if neither this instruction nor any of the preceding instructions within the block
+              **from that scope** are branches to locations past the initial target (outside of that 
+              block)
+              - mark the instruction that directly precedes the instruction at the branch target 
+                as a block end (increment its endscopecount)
+            = continue visiting 
+
+   - if the branch is backward
+     - start from the branch destination and visit instructions forward until the line with the branch itself 
+       is reached; if a ret instruction is reached during the process, the branch is to a location outside of
+       the current routine
+       - if the branch is to a location outside (before) the current routine
+
+ c) when an unconditional branch is reached   
+     - if the branch does no actual branching and is used only for popping the stack
+     - skip
+  - if the branch is to a location within the block (or routine if cur scope is routine)
+    - if the branch is forward
+      - skip the instructions in the sub-block that is branched over
+      - continue visiting
+    - if the branch is backward
+      - mark the branch as a block end
+      - mark the instruction at the branch destination as a 'do' blocktype
+
+
+ 4th pass - build representative code statements and expressions
+ a) visit instructions in sequence, starting at beginning
+ b) push the instruction to the stack if its operation pushes
+    its result to the stack (it is part of an expression)
+    ex.
+    1) primitive operations (can be represented with operator)
+    - ADD, SUB, MULT, DIV, MOD, SHA, CEQ, ANDL, ANDB, ORL, ORB, SLT
+      SLE, SGT, SGE, XOR, TST, NOTB
+    2) functional operations (can be represented with func. call)
+    - RND, SPD, PRS, SSAW, ANGD, APCH, ROT
+    - PATH, PROJ, APCR, MATT, MTRT, TVTX, SNMT, RBND, VCU1, VCU2, VCU3, VCU4, VCU5?
+    - DIST, VDST, AGDP, LXAG?, LYAG?, TCOL?
+    - FIND
+    - PAD, NTRY, 
+    3) specialized read operations (can be represented with data member)
+    - LR, TNRS, TB3, TPTB, GLBR, CVMR, EARG
+ c) if the instruction itself converts to a statement, build the appropriate statement:
+    1) standard statements
+    - MOVE = assignment
+    - MOVC = assignment (with comment indicating specialization)
+    - LEA = reference assignment
+    - JAL = function call
+      - use preceding stack pushes to determine call arguments (see comment under PSHV,PSHP)
+    - CST = state change (this keyword not a c keyword!)
+    - RST/F = state return (this keyword not a c keyword!)
+    
+    2) 'expression substitution' statements
+    - PSHV = declare and initialize variable 
+    - PSHP = declare and initialize pointer
+      - the instruction that pops the result(s) of either of these instructions' operation
+        can assign the name(s) of a variable(s) based on corresponding operand types
+      - the choice to represent such an instruction as its own line (consisting of 
+        separate declaration and initialization of a new variable) is up to the user;
+        the representative expression(s) for results pushed with these instructions
+        may be included directly as arguments in the utilizing instruction's representation;
+        for example, this
+        may be desirable for simple expressions in which declaration 
+        and initialization of a substitute is redundant.
+        in certain cases, however, such as when the 'variable' contents are explicitly
+        accessed as 'v($fp)', where v = 0x8+(4*vindex), the declaration/initialization
+        of that variable is forced
+    
+    3) operational statements (can be represented with non-returning func. call)
+    - ANIS, ANIF                   (partially control flow operations)
+    - CHLD, CHLF, EVNT, EVNB, EVNU (ops that affect other objects) 
+    - SNDA, SNDB                   (ops that affect psx hardware)
+    - BACE, TRMO                   (subops that affect other objects)
+    - CARD, SNDC                   (subops that affect psx hardware)
+    - SAVE, LOAD, GLBI?, PSSB, RSSB(subops that affect game state... 
+      SNSD, LLEV, ZONE              some involve a 'hidden' assignment; *llev efx hw)
+
+    4) specialized assignment statements
+    - SR, SZON, SNRS, SXB, CXB, SB3, CB3, SPTB, CPTB, SPAR, GLBW, CVMW, 
+
+    5) statements that could potentially convert to an expression
+    - NOTL, ABS, TRI
+
+  - SNDU, UNKB, 
+ d) when an instruction with a blocktype is visited:
+    1) blocktype = 1: routine
+       - build function defintion type statement if none already exists
+         for the instruction
+       - when the routine is called from elsewhere, eventually using the
+         state map to determine this, args can be deduced from the stack
+         pushes prior to the call
+    2) blocktype = 2: if
+       - build if type statement; build the appropriate conditional
+         expression for its rvalue
+    3) blocktype = 3: else
+       - if the next instruction with a blocktype is an if type, or the
+         current instruction is also an if type, the corresponding statement
+         and the statement for the else can be condensed into a single 
+         'else if' statement. build the appropriate statement.
+    4) blocktype = 4: loop
+       - ...
+
+ - when a statement is built, the lvalue reference is determined and the 
+   rvalue expression is built
+ - when an [sub-]expression is built, if either the left or right operand
+   requires a stack pop (i.e. is a sub-expression), the appropriate
+   preceding instructions will exist on the stack to decide how that sub-
+   expression shall be built 
+ - (for distinct paths [if/else], may need to copy/preserve the stack prior 
+    to the split and reload the stack for each distinct path)
+    [also consider the 'var skip' or stack pop count for various branches]
+
+ 5th pass? - code simplification
+   a) reduction to compound assignment of assignment to simple binary expression 
+      - if the rvalue of an assignment is an expression that is a binary
+      operation between the lvalue and some other operand, then convert to the 
+      appropriate compound assignment:
+        a = a + b -> a += b
+        a = a - b -> a -= b
+        a = a * b -> a *= b
+        a = a / b -> a /= b
+        a = a % b -> a %= b
+        a = a << b -> a <<= b
+        a = a >> b -> a >>= b
+        a = a | b -> a |= b
+        a = a & b -> a &= b
+        a = a ^ b -> a ^= b
+   b) reduction to pre/post-increment or decrement of assignment to binary operation 
+      between constant 1 (*looks ugly as a stmt though, more appropriate as an expr?)
+      - if the rvalue of an assignment is an expression that is a binary
+        addition or subtraction between the lvalue and the constant 1, then
+        convert to the appropriate post-increment or decrement statement
+          a = a + 1 or a = 1 +  a -> a++
+          a = a - 1 or a = a + -1 -> a--
+       
+
+statements and expressions
+**************************
+BL = takes the space of a single bit in the left field
+BR = takes the space of a single bit in the right field
+PL = takes part of the space in the left field
+PR = takes part of the space in the right field
+L  = takes the space of the entire left field
+R  = takes the space of the entire right field
+O  = takes the space of the operator field
+
+unary/rvalue expressions
+------------------------
+ex. a) !1
+ex. b) a = (0 + 1)
+           ^-----^ this part
+
+ex. a is encoded as the following:
+
+expr.op   = OP_NOT
+expr.left = subexpr
+         BL subexpr.lisleaf = 1 // l needs to be leaf to say r is a value 
+         BL subexpr.hasval = 1
+          R subexpr.value = 1
+          O subexpr.op = -1 // no op, is a value
+expr.right = 0
+            
+ex. b is encoded as the following:
+
+expr.op   = OP_ASSIGNMENT (stmt. also has this op; indicates a normal assignment)
+expr.left = subexpr
+          L subexpr.left = subsubexpr
+                        BL subsubexpr.lisleaf = 1
+                        BL subsubexpr.hasval = 1
+                         R subsubexpr.value = 0
+                         O subsubexpr.op = -1
+          R subexpr.right = subsubexpr
+                        BL  subsubexpr.lisleaf = 1
+                        BL  subsubexpr.hasval = 1
+                         R  subsubexpr.value = 1
+                         O  subsubexpr.op = -1
+          O subexpr.op = OP_ADD
+expr.right = 0
+
+assignment statements
+---------------------
+ex. a) a = (0 + 1)  // ex. b FROM ABOVE
+
+  stmt.type = TYPE_ASSIGNMENT
+L stmt.lsym = a
+R stmt.right = expr
+               expr.op   = OP_ASSIGNMENT (indicates a normal assignment)
+               expr.left = subexpr
+                         L subexpr.left = subsubexpr
+                                       BL subsubexpr.lisleaf = 1
+                                       BL subsubexpr.hasval = 1
+                                       R subsubexpr.value = 0
+                                       O subsubexpr.op = -1
+                         R subexpr.right = subsubexpr
+                                       BL  subsubexpr.lisleaf = 1
+                                       BL  subsubexpr.hasval = 1
+                                       R  subsubexpr.value = 1
+                                       O  subsubexpr.op = -1
+                         O subexpr.op = OP_ADD
+               expr.right = 0
+               
+               // the reason we have this extra level of expression is to 
+               // encode the specific type of assignment 
+               // it is an 'rvalue' expression because it is the rvalue of
+               // the assignment for which it determines characteristics
+            
+.........
+
+todo: declaration...
+
+func calls with argument lists
+------------------------------        
+ex.) func(refa, refb, vala, valb, (refc + refd));
+
+is encoded as the following:
+
+  stmt.type = TYPE_CALL
+L stmt.lref = unused
+R stmt.args = expra   
+            O expra.op = (op for func)
+           BL expra.lisleaf = 1
+           BL expra.haslref = 1
+           PL expra.lref = refa
+            R expra.next
+                 |
+           exprb V
+            O exprb.op = (op for func, again)
+           BL exprb.lisleaf = 1
+           BL exprb.haslref = 1
+           PL exprb.lref = refb
+            R exprb.next
+                 |
+           exprc V
+            O exprc.op = (op for func, again)
+            L exprc.left = exprcv
+                        BL exprcv.lisleaf = 1
+                        BL exprcv.hasval = 1
+                         R exprcv.value = vala
+                         O exprcv.op = -1
+            R exprc.next
+                 |
+                 V
+            O exprd.op = (op for func, again)
+            L exprd.left = exprdv
+                        BL exprdv.lisleaf = 1
+                        BL exprdv.hasval = 1
+                         R exprdv.value = valb
+                         O exprdv.op = -1
+            R exprd.next                  
+                 |
+                 V
+            O expre.op = (op for func, again)
+            L expre.left = subexpr
+                        BL subexpr.lisleaf = 1
+                        BL subexpr.haslref = 1
+                        PL subexpr.lref = refc
+                        BL subexpr.risleaf = 1
+                        BL subexpr.hasrref = 1
+                        PL subexpr.rref = refd
+                         O subexpr.op = OP_ADD
+            R expre.next = 0
+            
+function header // identical to a func call with an arg list of symbols
+---------------
+ex.) void func(syma, symb, symc)
+
+is encoded as the following:
+
+  stmt.type = TYPE_FUNCTION
+L stmt.lref = unused // will be a symbol for the function in future
+R stmt.args = expra   
+            O expra.op = (future: sub id?)
+           BL expra.lisleaf = 1
+           BL expra.haslsym = 1
+           PL expra.lsym = syma
+            R expra.next
+                 |
+           exprb V
+            O exprb.op = (future: sub id?, again)
+           BL exprb.lisleaf = 1
+           BL exprb.haslsym = 1
+           PL exprb.lsym = symb
+            R exprb.next
+                 |
+           exprc V
+            O exprc.op = (future: sub id?, again)
+           BL exprc.lisleaf = 1
+           BL exprc.haslsym = 1
+           PL exprc.lsym = symc
+            R exprc.next = 0

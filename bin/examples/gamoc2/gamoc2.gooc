@@ -1,0 +1,535 @@
+void func_0()
+{
+  entryoperation(0x54602073, 0x1);
+  entryoperation(0x54602055, 0x1);
+  entryoperation(0x54702073, 0x1);
+  entryoperation(0x54702055, 0x1);
+  entryoperation(0x54704073, 0x1);
+  entryoperation(0x54704055, 0x1);
+  entryoperation(0x54708073, 0x1);
+  entryoperation(0x54708055, 0x1);
+  entryoperation(0x54706073, 0x1);
+  entryoperation(0x54706055, 0x1);
+  entryoperation(0x5470c073, 0x1);
+  entryoperation(0x5470c055, 0x1);
+  entryoperation(0x5470a073, 0x1);
+  entryoperation(0x5470a055, 0x1);
+  entryoperation(0x54a02073, 0x1);
+  entryoperation(0x54a02055, 0x1);
+  statusb |= 0x100;
+  animpointer(0xdc00);
+  field[0x1ac] = 0;
+  do
+  {
+    animseq = 0;
+    animframe(0, 1, 3);
+  } while ((field[0x1ac] == 0x1));
+  if ((readglobal(0x3f00) & 0x2))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_0 = 0;
+    var var_1 = 0x1;
+    spawn(1, 52, 23, 2, var_1, var_0);
+  }
+  if ((readglobal(0x3f00) & 0x4))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_2 = 0;
+    var var_3 = 0x2;
+    spawn(1, 52, 23, 2, var_3, var_2);
+  }
+  if ((readglobal(0x3f00) & 0x8))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_4 = 0;
+    var var_5 = 0x3;
+    spawn(1, 52, 23, 2, var_5, var_4);
+  }
+  if ((readglobal(0x3f00) & 0.0625))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_6 = 0;
+    var var_7 = 0x4;
+    spawn(1, 52, 23, 2, var_7, var_6);
+  }
+  if ((readglobal(0x3f00) & 0.1250))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_8 = 0;
+    var var_9 = 0x5;
+    spawn(1, 52, 23, 2, var_9, var_8);
+  }
+  if ((readglobal(0x3f00) & 0.5000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_10 = 0;
+    var var_11 = 0x7;
+    spawn(1, 52, 23, 2, var_11, var_10);
+  }
+  if ((readglobal(0x3f00) & 0x100))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_12 = 0;
+    var var_13 = 0x8;
+    spawn(1, 52, 23, 2, var_13, var_12);
+  }
+  if ((readglobal(0x3f00) & 0x200))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_14 = 0;
+    var var_15 = 0x9;
+    spawn(1, 52, 23, 2, var_15, var_14);
+  }
+  if ((readglobal(0x3f00) & 0x400))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_16 = 0;
+    var var_17 = 0xa;
+    spawn(1, 52, 23, 2, var_17, var_16);
+  }
+  if ((readglobal(0x3f00) & 0x1000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_18 = 0;
+    var var_19 = 0xc;
+    spawn(1, 52, 23, 2, var_19, var_18);
+  }
+  if ((readglobal(0x3f00) & 0x2000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_20 = 0;
+    var var_21 = 0xd;
+    spawn(1, 52, 23, 2, var_21, var_20);
+  }
+  if ((readglobal(0x3f00) & 0x4000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_22 = 0;
+    var var_23 = 0xe;
+    spawn(1, 52, 23, 2, var_23, var_22);
+  }
+  if ((readglobal(0x3f00) & 0x8000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_24 = 0;
+    var var_25 = 0xf;
+    spawn(1, 52, 23, 2, var_25, var_24);
+  }
+  if ((readglobal(0x3f00) & 0x10000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_26 = 0;
+    var var_27 = 0.0625;
+    spawn(1, 52, 23, 2, var_27, var_26);
+  }
+  if ((readglobal(0x3f00) & 0x40000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_28 = 0;
+    var var_29 = 0x12;
+    spawn(1, 52, 23, 2, var_29, var_28);
+  }
+  if ((readglobal(0x3f00) & 0x80000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_30 = 0;
+    var var_31 = 0x13;
+    spawn(1, 52, 23, 2, var_31, var_30);
+  }
+  if ((readglobal(0x3f00) & 0x100000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_32 = 0;
+    var var_33 = 0x14;
+    spawn(1, 52, 23, 2, var_33, var_32);
+  }
+  if ((readglobal(0x3f00) & 0x200000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_34 = 0;
+    var var_35 = 0x15;
+    spawn(1, 52, 23, 2, var_35, var_34);
+  }
+  if ((readglobal(0x3f00) & 0x800000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_36 = 0;
+    var var_37 = 0x17;
+    spawn(1, 52, 23, 2, var_37, var_36);
+  }
+  if ((readglobal(0x3f00) & 0x1000000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_38 = 0;
+    var var_39 = 0x18;
+    spawn(1, 52, 23, 2, var_39, var_38);
+  }
+  if ((readglobal(0x3f00) & 0x2000000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_40 = 0;
+    var var_41 = 0x19;
+    spawn(1, 52, 23, 2, var_41, var_40);
+  }
+  if ((readglobal(0x3f00) & 0x4000000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_42 = 0;
+    var var_43 = 0x1a;
+    spawn(1, 52, 23, 2, var_43, var_42);
+  }
+  if ((readglobal(0x3f00) & 0x8000000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_44 = 0;
+    var var_45 = 0x1b;
+    spawn(1, 52, 23, 2, var_45, var_44);
+  }
+  if ((readglobal(0x3f00) & 0x20000000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_46 = 0;
+    var var_47 = 0x1d;
+    spawn(1, 52, 23, 2, var_47, var_46);
+  }
+  if ((readglobal(0x4800) & 0x100))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_48 = 0;
+    var var_49 = 0x28;
+    spawn(1, 52, 23, 2, var_49, var_48);
+  }
+  if ((readglobal(0x4800) & 0x40000))
+  {
+    animseq = 0;
+    animframe(0, 15, 3);
+    var var_50 = 0;
+    var var_51 = 0x32;
+    spawn(1, 52, 23, 2, var_51, var_50);
+    animseq = 0;
+  }
+  animframe(0, 15, 3);
+  var var_52 = 0x100;
+  var var_53 = var_52;
+  spawn(1, 52, 23, 2, var_53, readglobal(0x1400));
+  do
+  {
+    animframe(0, 63, 3);
+  }
+}
+
+void func_35c(arg1, arg2)
+{
+  if ((arg2 == 0x2100))
+    field[0x1ac] = 0x1;
+}
+
+void func_36c(arg1, arg2)
+{
+  unk_F8 = 0;
+  rot.y = 0xe3;
+  rot.x = 0;
+  rot.z = 0;
+  var var_54 = arg1;
+  func_24a8(var_54);
+  animpointer(misc);
+  entity = parent->entity;
+  pathcount = parent->pathcount;
+  pathprogress = 0;
+  statusb |= 0x200;
+  if (arg2)
+  {
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0x2a, self->self, 7);
+    playsound(0x1999, 0x26b32049);
+    pathprogress = 0;
+    do
+    {
+      vectormisca(pathprogress, self->trans.x);
+      scale.x = 0x599;
+      scale.y = 0x599;
+      scale.z = 0x599;
+      vectormisca(scale.x, self->trans.x, self->trans.x);
+      animframe(0, 1, 3);
+      pathprogress += 0.2500;
+    } while (!(pathprogress <= ((pathcount - 0x100) << 0xffffffff)));
+    animframe(0, 30, 3);
+    if (!((-0x3c00 - trans.x) == 0))
+      field[0x190] = ((-0x3c00 - trans.x) / 0xa);
+    else
+      field[0x190] = 0;
+    if (!((-0xc00 - trans.y) == 0))
+      field[0x194] = ((-0xc00 - trans.y) / 0xa);
+    else
+      field[0x194] = 0;
+    if (!((0xf5 - scale.x) == 0))
+      field[0x198] = ((0xf5 - scale.x) / 0xa);
+    else
+      field[0x198] = 0;
+    if (!((0xf5 - scale.y) == 0))
+      field[0x19c] = ((0xf5 - scale.y) / 0xa);
+    else
+      field[0x19c] = 0;
+    if (!((0xf5 - scale.z) == 0))
+      field[0x1a0] = ((0xf5 - scale.z) / 0xa);
+    else
+      field[0x1a0] = 0;
+    do
+    {
+      trans.x += field[0x190];
+      trans.y += field[0x194];
+      scale.x += field[0x198];
+      scale.y += field[0x19c];
+      scale.z += field[0x1a0];
+      animframe(0, 1, 3);
+      fp[0xc] += 0x100;
+    } while (!(fp[0xc] < 0xa00));
+    0, = 0;
+    sender = misc(0x100);
+    sendevent(0x2100, self->sender, 0, self->self);
+    audiob(0x400, self->self, 1);
+    playsound(0xfff, 0x54cbc049);
+    do
+    {
+      animframe(0, 63, 3);
+    }
+  }
+  else
+  {
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    audiob(0x2a, self->self, 7);
+    playsound(0x1999, 0x26b32049);
+    pathprogress = 0;
+    do
+    {
+      vectormisca(pathprogress, self->trans.x);
+      scale.x = 0x599;
+      scale.y = 0x599;
+      scale.z = 0x599;
+      vectormisca(scale.x, self->trans.x, self->trans.x);
+      animframe(0, 1, 3);
+      pathprogress += 0.2500;
+    } while (!(pathprogress <= (pathcount - 0x100)));
+  }
+}
+
+void func_550()
+{
+  if (!(statusa tst 0.1250))
+  {
+    if (!unk_F8)
+      rot.x += 0x71;
+  }
+}
+
+void func_570()
+{
+  writeglobal(0, 0x6100);
+  writeglobal(0, 0x6200);
+  if (((readglobal(0x3f00) << 0xffffffff) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffffe) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffffd) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffffc) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffffb) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff9) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff8) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff7) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff6) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff4) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff3) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff1) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << -1.0625) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffe6) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffed) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffee) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffec) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffeb) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xfffffff2) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffe9) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffe7) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffe8) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffe3) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x3f00) << 0xffffffe5) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x4800) << 0xfffffff8) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x4800) << 0xffffffee) & 0x1))
+    writeglobal((readglobal(0x6100) + 0x1), 0x6100);
+  if (((readglobal(0x4800) << 0xfffffff6) & 0x1))
+    writeglobal((readglobal(0x6200) + 0x1), 0x6200);
+  if (((readglobal(0x4800) << 0xffffffec) & 0x1))
+    writeglobal((readglobal(0x6200) + 0x1), 0x6200);
+  var var_55 = (readglobal(0x2e00) - 0x1);
+  if ((fp[0xc] > 0x1c))
+    fp[0xc] = 0x1c;
+  field[0x178] = (fp[0xc] << 0x1);
+  field[0x178] += readglobal(0x6100);
+  field[0x178] += (0x3 * readglobal(0x6200));
+  if (readglobal(0x6d00))
+    field[0x178] = 0;
+  field[0x17c] = ((field[0x178] * 0x64) / 0x58);
+  writeglobal(field[0x17c], 0x3a00);
+}
+
+void func_8e8()
+{
+  writeglobal((readglobal(0x400) | 0x80000), 0x400);
+  writeglobal(0, 0x3200);
+  writeglobal(0x8, 0x3300);
+  writeglobal(0x5c, 0x3400);
+  writeglobal(0x84, 0x3500);
+  entryoperation(0x200a459, 0x1);
+  entryoperation(0x200a3d9, 0x1);
+  entryoperation(0x200c159, 0x1);
+  entryoperation(0x200c0d9, 0x1);
+  entryoperation(0x200c2d9, 0x1);
+  entryoperation(0x200c259, 0x1);
+  entryoperation(0x200a4d9, 0x1);
+  field[0x184] = 0;
+  do
+  {
+    animseq = 0;
+    animframe(0, 1, 3);
+    entryoperation(0x200a4d9, 0x3);
+    entryoperation(0x200c259, 0x3);
+    entryoperation(0x200c2d9, 0x3);
+    entryoperation(0x200c0d9, 0x3);
+    entryoperation(0x200c159, 0x3);
+    entryoperation(0x200a3d9, 0x3);
+    entryoperation(0x200a459, 0x3);
+  } while (((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && var_55)))))));
+  audiob(0x5ce, self->self, 1);
+  playsound(0x2fff, 0x20064d9);
+  audiob(0x5ce, self->self, 1);
+  audiob(0x84, self->self, 7);
+  playsound(0x2fff, 0x2008059);
+  animseq = 0;
+  animframe(0, 4, 3);
+  spawn(1, 52, 25, 0);
+  var var_56 = 0xf;
+  spawn(1, 52, 11, 1, var_56);
+  var var_57 = 0.0625;
+  spawn(1, 52, 11, 1, var_57);
+  var var_58 = 0x11;
+  spawn(1, 52, 11, 1, var_58);
+  entryoperation(0x200c1d9, 0x1);
+  entryoperation(0x200c0d9, 0x1);
+  entryoperation(0x200c359, 0x1);
+  entryoperation(0x200c259, 0x1);
+  field[0x184] = 0x100;
+  spawn(1, 52, 24, 0);
+  entryoperation(0x2008259, 0x1);
+  entryoperation(0x7492aad5, 0x1);
+  entryoperation(0x200a2d9, 0x1);
+  entryoperation(0x200a259, 0x1);
+  entryoperation(0x200a359, 0x1);
+  field[0x184] = 0x200;
+  statusb = 0x100;
+  animseq = 0;
+  animframe(0, 60, 3);
+  animseq = 0;
+  animframe(0, 60, 3);
+  animseq = 0;
+  animframe(0, 30, 3);
+  do
+  {
+    animseq = 0;
+    animframe(0, 1, 3);
+    entryoperation(0x200a359, 0x3);
+    entryoperation(0x200a259, 0x3);
+    entryoperation(0x200a2d9, 0x3);
+    entryoperation(0x7492aad5, 0x3);
+    entryoperation(0x2008259, 0x3);
+  } while (((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && ((0x5452d94d + 0x5452d94d) && (0x5452d94d + 0x5452d94d))))));
+  trans.x = (readglobal(0x2500) - 0xfa000);
+  trans.y = (readglobal(0x2600) - 0x32000);
+  trans.z = (readglobal(0x2700) - 0x96000);
+  velocity.x = 0x96000;
+  velocity.y = 0;
+  velocity.z = 0;
+  rot.y = 0;
+  rot.x = 0x400;
+  rot.z = 0;
+  statusb = 0.2500;
+  unk_F8 = 0x100;
+  spawn(1, 52, 1, 0);
+  do
+  {
+    animsequence(0, 71, 1, 0);
+    animsequence(1, 71, 1, 0);
+    animsequence(2, 71, 1, 0);
+    animsequence(3, 71, 1, 0);
+    animsequence(4, 71, 1, 0);
+    animsequence(5, 71, 1, 0);
+    animsequence(6, 71, 1, 0);
+    animsequence(7, 71, 1, 0);
+    animsequence(8, 71, 1, 0);
+    animsequence(9, 71, 1, 0);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0xccc, 0x200c4d9);
+    animsequence(0, 71, 1, 1);
+    animsequence(1, 71, 1, 1);
+    animsequence(2, 71, 1, 1);
+    animsequence(3, 71, 1, 1);
+    animsequence(4, 71, 1, 1);
+    animsequence(5, 71, 1, 1);
+    animsequence(6, 71, 1, 1);
+    animsequence(7, 71, 1, 1);
+    animsequence(8, 71, 1, 1);
+    animsequence(9, 71, 1, 1);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0xccc, 0x200c459);
+  } while (!((trans.x < (readglobal(0x2500) + 0xfa000)) && unk_F8));
+  animseq = 0;
+  animframe(0, 63, 3);
+}
+
+

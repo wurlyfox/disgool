@@ -1,0 +1,327 @@
+ void func_0()
+ {
+  scale.x = 0;
+  scale.y = 0x1000;
+  scale.z = 0;
+  trans.y += ireg[0x24];
+  zindex = ireg[0x8];
+  var var_0 = 0;
+  var var_1 = -0x2800;
+  var var_2 = 0;
+  spawn(32, 3, 3);
+  var var_3 = 0x1000;
+  var var_4 = -0x7800;
+  var var_5 = 0x2000;
+  spawn(32, 5, 3);
+  if ((readglobal(0,) < ireg[0xc]))
+  {
+    var var_6 = ireg[0x10];
+    var var_7 = 0;
+    var var_8 = ireg[0x14];
+    spawn(32, 5, 3);
+    name here(0x400, self->self, 1);
+  }
+  name here(ireg[0x18], self->self, 12);
+  name here(ireg[0x1c], self->self, 6);
+  name here(ireg[0x20], self->pc, 0);
+  name here(0, ireg[0x4]);
+  do
+  {
+    animseq = 0;
+    animframe(0, 63, 3);
+  }
+ }
+
+ void func_6c(arg1, arg2)
+ {
+  if ((0x1a00 == arg2))
+  {
+    name here(0, self->scale.x, 5);
+    name here(ireg[0x28], self->scale.x, 6);
+    name here(0, self->node, 0);
+  }
+ }
+
+ void func_84()
+ {
+  if (!(0.1250 tst statusa))
+  {
+    var var_9 = readglobal(0,);
+    if (((0x1e00 == fp[0xc]) || (0x1100 == fp[0xc])))
+    {
+      if ((player->trans.z < (ireg[0x2c] + trans.z)))
+      {
+        var var_10 = 0;
+        sendevent(1, self->scale.z);
+        if (!self->misc)
+        {
+          state 1;
+        }
+      }
+    }
+    else
+    {
+      if ((misc(0,) < ireg[0x30]))
+      {
+        if ((((!(ireg[0x3c] tst player->statusa) && (ireg[0x38] tst player->statusa)) && (player->trans.y < trans.y)) && (player->trans.y >= (trans.y - ireg[0x34]))))
+        {
+          if ((ireg[0x40] == player->displaymode))
+          {
+            player->displaymode = 0;
+            var var_11 = 0;
+          }
+          sendevent(1, self->scale.z);
+          if (!self->misc)
+          {
+            state 1;
+          }
+        }
+      }
+    }
+    rot.y = readglobal(0,);
+    if ((scale.x < 0x1000))
+    {
+      scale.x += ireg[0x44];
+      scale.z = scale.x;
+    }
+  }
+ }
+
+ void func_134()
+ {
+  unkevent(0, self->self);
+  do
+  {
+    animseq = 0;
+    animframe(0, 63, 3);
+  }
+ }
+
+ void func_148()
+ {
+  if (!(0.1250 tst statusa))
+  {
+    trans.y += (modeflagsb - groundy);
+    groundy = modeflagsb;
+  }
+  var var_12 = player->trans.x;
+  var var_13 = var_12;
+  trans.x = approach(doublesp(), trans.x);
+  var var_14 = player->trans.z;
+  var var_15 = var_14;
+  trans.z = approach(doublesp(), trans.z);
+  if (((stampanim - stampstate) >= ireg[0x8]))
+  {
+    if ((readglobal(0,) < 0.1250))
+    {
+      var var_16 = 0xfa00;
+      var var_17 = player;
+      var var_18 = ireg[0x48];
+      spawn(5, 3, 3);
+    }
+  }
+  scale.x += ireg[0x44];
+  scale.z = scale.x;
+ }
+
+ void func_1bc(arg1, arg2, arg3)
+ {
+  modeflagsa = arg3;
+  modeflagsb = arg1;
+  modeflagsc = arg1;
+  trans.x += modeflagsa;
+  trans.y += modeflagsb;
+  trans.z += modeflagsc;
+  velocity.y = random(0x6400, 0);
+  scale.x = 0x1000;
+  scale.y = 0x1000;
+  scale.z = 0x1000;
+  if (!random(ireg[0x4c], 0))
+  {
+    targetrot.z = (random(ireg[0x50], 0) + ireg[0x54]);
+  }
+  else
+  {
+    targetrot.z = -(random(ireg[0x50], 0) + ireg[0x54]);
+  }
+  if ((readglobal(0,) < ireg[0x58]))
+  {
+    var var_19 = 0xa000;
+    var var_20 = 0x2800;
+    spawn(32, 4, 2);
+    var var_21 = 0x5000;
+    var var_22 = ireg[0x5c];
+  }
+  spawn(32, 4, 2);
+  var var_23 = -0x5000;
+  var var_24 = ireg[0x60];
+  spawn(32, 4, 2);
+  var var_25 = -0xa000;
+  var var_26 = ireg[0x64];
+  spawn(32, 4, 2);
+  if (!random(ireg[0x4c], 0))
+  {
+    self->scale.x = -self->scale.x;
+  }
+  animframe = random(0x300, 0);
+  do
+  {
+    animframe(animframe, 63, 3);
+  }
+ }
+
+ void func_278()
+ {
+  if (!(0.1250 tst statusa))
+  {
+    groundy = (modeflagsb + parent->trans.y);
+    var var_27 = ireg[0x24];
+    var var_28 = 3.1250;
+    void func_0(&velocity.y, var_28, var_27)
+    trans.y = (sinewave(ireg[0x68]) + groundy);
+    rot.z += targetrot.z;
+    trans.x = (modeflagsa + parent->trans.x);
+    trans.z = (modeflagsc + parent->trans.z);
+  }
+ }
+
+ void func_2bc(arg1)
+ {
+  zindex = 0.1875;
+  scale.x = 0;
+  scale.y = 0;
+  scale.z = arg1;
+  unk_154 = arg1;
+  if (!random(ireg[0x4c], 0))
+  {
+    targetrot.z = (random(ireg[0x50], 0) + ireg[0x54]);
+  }
+  else
+  {
+    targetrot.z = -(random(ireg[0x50], 0) + ireg[0x54]);
+  }
+  unk_F8 = random(ireg[0x1c], 0);
+  velocity.x = 0;
+  velocity.y = 0;
+  velocity.z = arg1;
+  modeflagsa = random(ireg[0x6c], -0xc800);
+  modeflagsb = random(0xc800, 0);
+  modeflagsc = arg1;
+  animframe = random(0x300, 0);
+  do
+  {
+    animframe(animframe, 63, 3);
+  }
+ }
+
+ void func_33c()
+ {
+  if (!(0.1250 tst statusa))
+  {
+    trans.x = (velocity.x + creator->trans.x);
+    trans.y = (velocity.y + creator->trans.y);
+    trans.z = (velocity.z + creator->trans.z);
+    var var_29 = modeflagsa;
+    var var_30 = 0x800;
+    velocity.x = approach(doublesp(), velocity.x);
+    var var_31 = modeflagsb;
+    var var_32 = 0x800;
+    velocity.y = approach(doublesp(), velocity.y);
+    var var_33 = modeflagsc;
+    var var_34 = 0x800;
+    velocity.z = approach(doublesp(), velocity.z);
+    if (!sawwave(unk_F8, ireg[0x1c]))
+    {
+      modeflagsa = random(ireg[0x74], ireg[0x70]);
+      modeflagsb = random(ireg[0x78], -0xa000);
+      modeflagsc = random(ireg[0x74], ireg[0x70]);
+    }
+    rot.z += targetrot.z;
+    if ((readglobal(0,) < ireg[0xc]))
+    {
+      var var_35 = unk_154;
+      var var_36 = ireg[0x44];
+      scale.z = approach(doublesp(), scale.z);
+    }
+    else
+    {
+      var var_37 = ireg[0x7c];
+      var var_38 = ireg[0x44];
+      scale.z = approach(doublesp(), scale.z);
+    }
+    var var_39 = scale.z;
+    var var_40 = ireg[0x7c];
+    scale.x = approach(doublesp(), scale.x);
+    var var_41 = scale.z;
+    var var_42 = ireg[0x7c];
+    scale.y = approach(doublesp(), scale.y);
+  }
+ }
+
+ void func_3f4(arg1, arg2, arg3)
+ {
+  statusb |= 0x400;
+  zindex = ireg[0x8];
+  unk_F8 = 0;
+  unk_154 = arg3;
+  scale.x = 0;
+  scale.y = 0xc00;
+  scale.z = 0;
+  trans.y += arg1;
+  targetrot.y = arg1;
+  do
+  {
+    animsequence(0, 0, 63, 3);
+  }
+ }
+
+ void func_42c(arg1, arg2)
+ {
+  if (!(0x800 == arg2))
+  {
+    guard false;
+    unk_F8 = 0x100;
+  }
+ }
+
+ void func_43c()
+ {
+  if (!(0.1250 tst statusa))
+  {
+    scale.x = ((unk_154 * parent->scale.x)  ireg[0x80]);
+    scale.z = ((unk_154 * parent->scale.z)  ireg[0x80]);
+    rot.y = speed(targetrot.y, rot.y);
+    if (self->unk_F8)
+    {
+      var var_43 = 0;
+      var var_44 = ireg[0x84];
+      name here(intensity.r, approach(doublesp(), var_44));
+      var var_45 = 0;
+      var var_46 = ireg[0x84];
+      name here(intensity.g, approach(doublesp(), var_46));
+      var var_47 = 0;
+      var var_48 = ireg[0x84];
+      name here(intensity.b, approach(doublesp(), var_48));
+      name here(intensity.r, readcolor(intensity.r));
+      name here(intensity.g, readcolor(intensity.g));
+      name here(intensity.b, readcolor(intensity.b));
+      name here(colormatrix.v1x, readcolor(intensity.r));
+      name here(colormatrix.v1y, readcolor(intensity.g));
+      name here(colormatrix.v1z, readcolor(intensity.b));
+      name here(colormatrix.v2x, readcolor(intensity.r));
+      name here(colormatrix.v2y, readcolor(intensity.g));
+      name here(colormatrix.v2z, readcolor(intensity.b));
+      name here(colormatrix.v3x, readcolor(intensity.r));
+      name here(colormatrix.v3y, readcolor(intensity.g));
+      name here(colormatrix.v3z, readcolor(intensity.b));
+      if (readcolor(intensity.r))
+      {
+        state 5;
+      }
+    }
+  }
+ }
+
+ void func_508()
+
+

@@ -1,0 +1,289 @@
+// state 0: spawning state
+// -----------------------
+// state 0 trans block: set up crab and go to normal state
+void func_0()
+{
+  // spawn a shadow for the crab
+  var var_0 = 0;
+  var var_1 = 0x1999;
+  var var_2 = 0xa;
+  spawn(1, 29, 1, 3, var_2, var_1, var_0);
+  
+  // bit 3 = auto-rotate mode for path travelling objects
+  // bit 5 = collidable object in this frame
+  // bit 12 = object auto-banks along path curves
+  // bit 14 = object rotates in YZ plane based on target angles
+  // bit 17 = object is solid at the sides
+  // bit 18 = object is solid at the top
+  // 0x32814 = 00000000000000110010100000010100
+  statusb = 0x32814;
+  
+  // modeflagsa = dddddddddddffffffff0000000000000
+  // where d.f = avg. progress between path points; if nonzero,
+  // forces obj to start at other end of its path
+  if (self->modeflagsa)
+  {
+    pathprogress = (((modeflagsa - 0x8000) * pathcount) >> 15);
+    hotspotclip = 0x1400;
+  }
+  
+  // flipped 90 degrees
+  approachyz = 0x400;
+  
+  // z-priority of 14
+  zindex = 0xe;
+  
+  // go to normal state
+  state 1;
+}
+
+// state 1: normal state
+// ---------------------
+// state 1 code block: animate and play claw pinch sounds
+void func_38()
+{
+  do
+  {
+    animsequence(0, 0, 1, 3);
+    animsequence(1, 0, 1, 3);
+    animsequence(2, 0, 1, 3);
+    animsequence(3, 0, 1, 3);
+    animsequence(4, 0, 1, 3);
+    animsequence(5, 0, 1, 3);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0x47a, 0x4d3024c9);
+    animsequence(6, 0, 1, 3);
+    animsequence(7, 0, 1, 3);
+    animsequence(8, 0, 1, 3);
+    animsequence(9, 0, 1, 3);
+    animsequence(10, 0, 1, 3);
+    animsequence(11, 0, 1, 3);
+    animsequence(12, 0, 1, 3);
+    animsequence(13, 0, 1, 3);
+    animsequence(14, 0, 1, 3);
+    animsequence(15, 0, 1, 3);
+    audiob((0x399 + random(0xcc, 0)), self->self, 1);
+    playsound(0x47a, 0x4d3044c9);
+    animsequence(16, 0, 1, 3);
+    animsequence(17, 0, 1, 3);
+    animsequence(18, 0, 1, 3);
+  }
+}
+
+// state 1 trans block: see-saw along path and prepare to kill colliding [player] objects
+void func_ac()
+{
+  // velocity = 4 meters per sec.
+  // travel path 
+  var var_3 = speed(0x400, 0);
+  var var_4 = var_3;
+  path(sinewave( 
+                ((pathcount + (speed(0x400, 0) + -0x100)) - speed(0x400, 0)),
+                trianglewave(&pathprogress, var_4, (pathcount + (speed(0x400, 0) + -0x100))))
+               ), 
+       self->trans.x);
+       
+  // i.e. path (sinw (- pcount 1) (seekf progress (velocity (meters per sec 4)) (+ pcount velocity(meters per sec 4))))
+  //
+  // i.e. path progress increments at a rate of var_4, and whenever it reaches the end of the
+  // path [i.e. (pathcount + (speed(0x400, 0)) - 0x100)] it is negated (i.e. set to the negative
+  // of the end of path value):
+  //
+  //    /   /   /   / <-----progress +pathcount
+  // 0 /___/___/___/ <-----progress 0
+  //      /   /   /
+  //     /   /   /    <-----progress -pathcount
+  //  
+  // where negative progress values, by the path function, are interpreted as the absolute value
+  // equivalent-such that the following:
+  //
+  //    /\  /\  /\  / <-----progress +pathcount
+  // 0 /__\/__\/__\/ <-----progress 0
+  //
+  // represents the same progress values; a resultant negative value is still reflected in the
+  // progress value argument passed by reference to the trianglewave function, which effectively
+  // also returns the absolute value equivalent
+  //
+  // this is then sent as the input argument for 'phase' to the sinewave function, where the period
+  // of the sine wave is spread out across the length of the path [first input arg specifies this]
+  //
+  // in effect, the triangle signal is converted to a ramped sinusoid (i.e. with slower increase 
+  // than decrease). this allows the crab to move smoothly and more naturally along its path than if
+  // the pure triangle signal were used-naturally in that the object will appear to decelerate as 
+  // it approaches either end [before reversing its direction].
+  
+  // if the object has a collider
+  if ((statusa tst 0x1000))
+  {
+    // and if the player is supported by the ground--\
+    // then send event kill to collider with argument|0x6400
+    var var_5 = 0x6400;                          //  V
+    sendevent(0x300, self->collider, 1, (player->statusa tst 0x1), var_5);
+  }
+}
+
+// state 2: bounced on
+// -------------------
+// state 2 code block: notify player, prepare to die [according to this state], and sleep/animate until 'dead'
+void func_f8(arg1)
+{
+  // notify the player that we have been killed
+  var var_6 = arg1;
+  sendevent(0x1000, self->player, 1, self->self, var_6);
+  
+  // clear bits 1, 5, 6, 7, 16
+  // bit 1 = object rotates in XZ plane based on approach angles
+  // bit 5 = collidable object in this frame
+  // bit 6 = object y velocity affected by gravity
+  // bit 7 = object displacement handled by physics engine
+  // bit 16 = object assumes ground is at its initial y location
+  // i.e. no longer collidable, not affected by gravity, does not travel its path, and loses sense of the ground
+  statusb &= 0xffff7f8e;
+  
+  // set bit 14
+  // bit 14 = object rotates in YZ plane based on approaching angles
+  statusb |= 0x2000;
+  
+  // roll 180 degrees and flip twice
+  targetrot.z = 0x800;
+  approachyz = 0x2000;
+  
+  // sleep/animate until 'dead'
+  do
+  {
+    animsequence(0, 2, 1, 3);
+  } while (scale.x < 0x1333);
+}
+
+// state 2 trans block: gradually magnify while spinning and rolling
+void func_130()
+{
+  // set the no respawn bit
+  misc(id, 5);
+
+  // this used as the starting phase of the triangle wave
+  unk_F8 = 0x1000;    // 1
+  pctrans = pc;
+  //------------------ ^ one time ^ ----------------------
+  
+  // increase vec scale (starting at 1) at a rate of 0.1 with peak 1.2
+  // (causes crab to gradually magnify)
+  var var_7 = 0x1333; // 1.2 or 19.2
+  var var_8 = 0x199;  // 0.1 or 1.6
+  scale.x = trianglewave(&unk_F8, var_8, var_7); // seekf???
+  scale.y = scale.x;
+  scale.z = scale.x;
+  
+  // spin and roll at rate of 60 degrees [per frame]
+  rot.x += 0x2aa;
+  rot.z = rot.x;
+}
+
+// state 3: spun away
+// ------------------
+// state 3 code block: notify player, prepare to die [according to this state], play any sounds specific to the
+// death, and sleep/animate until 'dead'
+void func_15c(arg1)
+{
+  // set the no respawn bit
+  misc(id, 5);
+
+  // arg1 will cause a stall in the objects animation and the player seems to 
+  // be informed about it. perhaps this is for when the crab is momentarily 
+  // frozen by another enemy it collides with as it flies off into the distance, 
+  // and the player is informed with the non-zero value (indicating a collision)
+  // for a wumpa fruit reward
+  animcounter = (arg1 + 0x100);
+  var var_9 = arg1;
+  sendevent(0x1000, self->player, 1, self->self, var_9);
+  
+  // play 'spun away' sound
+  audiob((0x399 + random(0xcc, 0)), self->self, 1);
+  playsound((0xae1 + random(0x333, 0)), 0x1eaa4049);
+  
+  // literally spin away from the player (also factor in camera x rotation)
+  targetrot.x = ((((
+                   (angulardisplacement(player->trans, self->self) + 
+                   (0x800 - readglobal(0xf00))) + 0x100) & 0xfffffe00) & 0xfff) + readglobal(0xf00));
+  
+  // crab does not fall as it flies off into distance
+  velocity.y = 0;
+  
+  // fly away at this initial speed
+  speed = 0xfa000;
+  
+  // set flag for 'displacement handled only by adding velocity to location'
+  // (this actually causes object to fly off into the distance)
+  statusb = 0x40;
+  
+  // also set flag for rotate in YZ plane based on target angles
+  statusb |= 0x2000;
+  
+  // roll 180 degrees and flip twice
+  targetrot.z = 0x800;
+  approachyz = 0x2000;
+  do
+  {
+    animsequence(0, 2, 1, 3);
+  } while (((abs(scale.x) > 0) && ((scale.y > 0) && (scale.z > 0)))); // until 'dead'
+}
+
+// state 3 trans block: fly off into distance at an accelerating speed in the target spin direction, 
+// gradually shrinking in size [scale] and preparing to kill/break the nearest [non-player] object 
+// within an 800 meter radius if any
+void func_1f8()
+{
+  // unless first frame
+  if (!(statusa tst 0x20))
+  {
+    // (let ((target (find the nearest object))
+    sender = nearestobject(self->self, 0x1d00, self->rot.z);
+    
+    // (when (and target (< (dist target) (meters 800)) 
+              (send event break object)))
+    if (self->sender)
+    {
+      var var_10 = animcounter;
+      sendevent(0x1d00, self->sender, 1, (misc(self->sender, 0) < 0x32000), var_10);
+    }
+    else
+      misc = 0;
+      
+    //...??
+    if (self->misc)
+      animcounter += 0x100;
+      
+    // reposition object y to that of the highest colliding 
+    // object, if any
+    outvector = &obj[0xF8];
+    miscvector.y = (trans.y - 0x19000);
+    do
+    {
+      trans.y = (miscvector.y + 0x19000);
+      misc_colsource = highestcollidingsource(outvector, miscvector);
+    } while (misc_colsource && miscvector.y >= trans.y)
+    
+    // gradually shrink
+    scale.x -= 0x88;
+    scale.y -= 0x88;
+    scale.z -= 0x88;
+    
+    // the following accelerates the object's -position- in the direction of its 
+    // target spin -angle- (in the XZ axis) at a rate of 75 meters per second
+    // until the cap speed of 1000 meters per second is reached 
+    
+    // gradually increase speed (accelerate)
+    speed += 0x4b000;
+    if ((speed < 0x3e8000))
+    {
+      speed += 0x4b000;
+      inspeed = speed;
+    }
+    else
+      inspeed = 0x3e8000;
+      
+    // adjust velocity vector to point in direction of target spin angle
+    // with speed inspeed
+    approachrot(inspeed, velocity);
+  }
+}
