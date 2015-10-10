@@ -20,9 +20,8 @@ There are two bash scripts included: run.sh and disasm.sh.
 <li> Extract the bytecode item file to ./bin/examples/&lt;entryname&gt;/&lt;entryname&gt;.bin
 <li> Optionally, extract the third item (data pool) of the GOOL entry to ./bin/examples/&lt;entryname&gt;/&lt;entryname&gt;.ireg
 </ol>
-<br>
-<ol>
 "./run.sh &lt;entryname&gt;" will generate two files in ./bin/examples/&lt;entryname&gt;:
+<ol>
 <li> ./bin/examples/&lt;entryname&gt;/&lt;entryname&gt;.gooc - Discompiled output
 <li> ./bin/examples/&lt;entryname&gt;/&lt;entryname&gt;.gd   - Disassembled output
 </ol>
